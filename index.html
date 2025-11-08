@@ -1,0 +1,2252 @@
+<!DOCTYPE html>
+<html lang="bn">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- SEO Meta Tags -->
+    <title>
+      Ramadan Planner 2025 | Prayer Times, Sahari & Iftar Time, Quran
+    </title>
+    <meta
+      name="description"
+      content="A complete Ramadan Planner for 2025 with Prayer Times, Sahari & Iftar Time, Ramadan Calendar, Fasting Tracker, Quran, Dua, Hadith, Tasbih, and Zakat Calculator. Get accurate Salat times and Qibla direction."
+    />
+    <meta
+      name="keywords"
+      content="Ramadan Planner 2025, Ramadan Calendar 2025, Iftar Time 2025, Sahari Time 2025, Prayer Times, Salat Times, Fasting Tracker, Quran, Dua, Hadith, Tasbih, Zakat Calculator, Muslim App, Islamic Calendar, Laylat al-Qadr, Qibla, How to pray, Zakat Calculator on gold, Nisab threshold 2025"
+    />
+    <meta name="robots" content="index, follow" />
+    <meta
+      property="og:title"
+      content="Ramadan Planner 2025 | Prayer Times & Tracker"
+    />
+    <meta
+      property="og:description"
+      content="The best Ramadan planner app for 2025 with accurate Sahari-Iftar times, prayer tracker, Quran, Duas, and more."
+    />
+    <meta property="og:type" content="website" />
+
+    <!-- Stylesheets and Fonts -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Favicon -->
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23166534' d='M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z'/%3E%3C/svg%3E"
+      type="image/svg+xml"
+    />
+
+    <!-- PrayerTimes.js library removed, using Aladhan API instead -->
+
+    <style>
+      body {
+        font-family: "Noto Sans Bengali", "Inter", sans-serif;
+        background-color: #f0fdf4; /* green-50 */
+      }
+      /* --- Tab Navigation --- */
+      .tab-active {
+        border-bottom-color: #f97316;
+        color: #f97316;
+        font-weight: 600;
+      }
+      .day-tab-active {
+        background-color: #166534; /* dark green */
+        color: white;
+        font-weight: 600;
+      }
+
+      /* --- Content Visibility --- */
+      .main-content {
+        display: none;
+      }
+      .main-content.active {
+        display: block;
+      }
+      .day-content {
+        display: none;
+      }
+      .day-content.active {
+        display: block;
+      }
+
+      /* --- Custom Checkbox --- */
+      .form-checkbox {
+        appearance: none;
+        width: 1.25rem;
+        height: 1.25rem;
+        border: 2px solid #15803d; /* green-700 */
+        border-radius: 0.25rem;
+        display: inline-block;
+        position: relative;
+        vertical-align: middle;
+        cursor: pointer;
+      }
+      .form-checkbox:checked {
+        background-color: #15803d;
+        border-color: #15803d;
+      }
+      .form-checkbox:checked::after {
+        content: "✔";
+        font-size: 0.8rem;
+        color: white;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      /* --- Scrollbar --- */
+      .no-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+      .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+        cursor: grab; /* For mouse sliding */
+      }
+      .no-scrollbar:active {
+        cursor: grabbing;
+      }
+
+      /* --- Modal Styles --- */
+      .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 50;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.2s ease, visibility 0.2s ease;
+      }
+      .modal-overlay.show {
+        opacity: 1;
+        visibility: visible;
+      }
+      .modal-content {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 0.75rem;
+        width: 90%;
+        max-width: 500px;
+        transform: scale(0.95);
+        transition: transform 0.2s ease;
+      }
+      .modal-overlay.show .modal-content {
+        transform: scale(1);
+      }
+
+      /* --- Custom Select --- */
+      .custom-select {
+        appearance: none;
+        background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>');
+        background-repeat: no-repeat;
+        background-position: right 0.75rem center;
+        background-size: 1.5em 1.5em;
+        padding-right: 2.5rem; /* Make space for arrow */
+      }
+
+      /* --- Loader Spinner --- */
+      .spinner {
+        border: 4px solid rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        border-top: 4px solid #fff;
+        width: 20px;
+        height: 20px;
+        animation: spin 1s linear infinite;
+      }
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+      .modal-spinner {
+        border-color: #ccc;
+        border-top-color: #166534; /* green-800 */
+      }
+    </style>
+  </head>
+  <body class="bg-green-50">
+    <!-- Header (Logo) -->
+    <header class="bg-green-800 text-white p-5 shadow-lg">
+      <div class="container mx-auto max-w-6xl">
+        <!-- Top row for Eng/Ar -->
+        <div class="flex justify-between items-center">
+          <div class="text-left"></div>
+          <div class="text-right" style="direction: rtl"></div>
+        </div>
+        <!-- Center Bangla Title -->
+        <div class="text-center mt-2">
+          <h2 class="text-3xl sm:text-4xl font-bold">রামাদ্বান প্ল্যানার</h2>
+          <p class="text-lg sm:text-xl mt-1">মাসব্যাপী আত্মশুদ্ধির পরিকল্পনা</p>
+        </div>
+      </div>
+    </header>
+
+    <!-- NEW Prayer Time Header -->
+    <section class="container mx-auto max-w-6xl p-4 mt-6">
+      <div class="relative rounded-lg shadow-lg overflow-hidden">
+        <!-- Background Image and Overlay Removed -->
+
+        <!-- Content -->
+        <div class="relative z-10 p-4 sm:p-6 text-green-900">
+          <!-- Top Info Box (Glassmorphism) -->
+          <div
+            class="bg-green-800/5 backdrop-blur-sm p-4 rounded-lg shadow-xl border border-green-800/10"
+          >
+            <div class="text-center">
+              <h3
+                id="prayer-hijri-date"
+                class="text-xl sm:text-2xl font-bold text-center"
+              >
+                ...
+              </h3>
+              <p
+                id="prayer-gregorian-date"
+                class="text-center text-sm sm:text-base"
+              >
+                ...
+              </p>
+            </div>
+            <div class="flex justify-between items-center mt-4">
+              <!-- Clickable Location Button -->
+              <button
+                id="change-location-btn"
+                class="text-sm font-semibold truncate text-left hover:underline focus:outline-none"
+              >
+                <span id="prayer-location-display">লোকেশন সেট করুন...</span>
+              </button>
+              <div class="flex items-center gap-2">
+                <button
+                  id="settings-btn"
+                  class="text-sm py-1 px-3 bg-green-800/10 rounded-lg hover:bg-green-800/20"
+                >
+                  সেটিংস
+                </button>
+                <button
+                  id="disclaimer-btn"
+                  class="w-8 h-8 flex items-center justify-center bg-red-100 rounded-full hover:bg-red-200"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="text-red-600"
+                  >
+                    <path
+                      d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"
+                    ></path>
+                    <line x1="12" y1="9" x2="12" y2="13"></line>
+                    <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <div
+              id="next-prayer-countdown"
+              class="text-center text-lg font-bold text-green-800 mt-4"
+            ></div>
+          </div>
+
+          <!-- Prayer Times Grid -->
+          <div
+            id="prayer-times-grid"
+            class="grid grid-cols-3 sm:grid-cols-5 gap-2 text-center mt-4"
+          >
+            <!-- JS will inject prayer times here -->
+            <div class="bg-green-800/10 p-2 rounded-lg">
+              <p class="text-xs sm:text-sm">...</p>
+              <p class="font-bold text-base sm:text-lg">...</p>
+            </div>
+            <div class="bg-green-800/10 p-2 rounded-lg">
+              <p class="text-xs sm:text-sm">...</p>
+              <p class="font-bold text-base sm:text-lg">...</p>
+            </div>
+            <div class="bg-green-800/10 p-2 rounded-lg">
+              <p class="text-xs sm:text-sm">...</p>
+              <p class="font-bold text-base sm:text-lg">...</p>
+            </div>
+            <div class="bg-green-800/10 p-2 rounded-lg">
+              <p class="text-xs sm:text-sm">...</p>
+              <p class="font-bold text-base sm:text-lg">...</p>
+            </div>
+            <div class="bg-green-800/10 p-2 rounded-lg">
+              <p class="text-xs sm:text-sm">...</p>
+              <p class="font-bold text-base sm:text-lg">...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Navigation -->
+    <nav class="bg-white shadow-md sticky top-0 z-40">
+      <!-- Mobile-friendly horizontal scroll, aligned left -->
+      <div
+        class="container mx-auto max-w-6xl flex justify-start overflow-x-auto no-scrollbar p-2"
+      >
+        <button
+          class="main-tab py-3 px-4 flex-shrink-0 text-gray-700 border-b-4 border-transparent hover:border-orange-500 hover:text-orange-500 transition-all duration-200 tab-active"
+          onclick="showMainTab('intro')"
+        >
+          ভূমিকা
+        </button>
+        <button
+          class="main-tab py-3 px-4 flex-shrink-0 text-gray-700 border-b-4 border-transparent hover:border-orange-500 hover:text-orange-500 transition-all duration-200"
+          onclick="showMainTab('planner')"
+        >
+          প্ল্যানার
+        </button>
+        <button
+          class="main-tab py-3 px-4 flex-shrink-0 text-gray-700 border-b-4 border-transparent hover:border-orange-500 hover:text-orange-500 transition-all duration-200"
+          onclick="showMainTab('laylatul-qadr')"
+        >
+          লাইলাতুল ক্বদর
+        </button>
+        <button
+          class="main-tab py-3 px-4 flex-shrink-0 text-gray-700 border-b-4 border-transparent hover:border-orange-500 hover:text-orange-500 transition-all duration-200"
+          onclick="showMainTab('eid-prep')"
+        >
+          ঈদের প্রস্তুতি
+        </button>
+        <button
+          class="main-tab py-3 px-4 flex-shrink-0 text-gray-700 border-b-4 border-transparent hover:border-orange-500 hover:text-orange-500 transition-all duration-200"
+          onclick="showMainTab('zakat')"
+        >
+          যাকাত ক্যালকুলেটর
+        </button>
+        <button
+          class="main-tab py-3 px-4 flex-shrink-0 text-gray-700 border-b-4 border-transparent hover:border-orange-500 hover:text-orange-500 transition-all duration-200"
+          onclick="showMainTab('ramadan-calendar')"
+        >
+          রামাদ্বান ক্যালেন্ডার ২০২৫
+        </button>
+      </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="container mx-auto max-w-6xl p-4 mt-6">
+      <!-- Introduction Section -->
+      <section id="intro" class="main-content space-y-6">
+        <div
+          class="bg-white p-6 rounded-lg shadow-md border-t-4 border-green-700"
+        >
+          <h3 class="text-2xl font-bold text-green-800 mb-4">
+            রামাদ্বান প্ল্যানার নির্দেশিকা
+          </h3>
+          <p class="text-gray-700 leading-relaxed">
+            রামাদ্বানকে ফলপ্রসূ করার জন্য এই প্ল্যানারটি তৈরি করা হয়েছে। এটি
+            কুরআন-সুন্নাহ দ্বারা নির্ধারিত কোনো ফর্মুলা নয়। যে কেউ রামাদ্বানকে
+            স্বার্থক করতে যে কোনোভাবে প্ল্যান করে আমল করতে পারেন। প্ল্যানারটিতে
+            বেশ কয়েকটি অংশ রয়েছে, যেমন: দিনের আয়াত, দিনের হাদীস, দিনের দু'আ, এবং
+            দৈনিক চেকলিস্ট। প্রতিদিন একটি করে আয়াত, হাদীস ও দু'আ মুখস্থ করার
+            জন্য দেওয়া হয়েছে। মুখস্থ করতে না পারলে, পাঠ করে ইলম হাসিল ও অন্যের
+            সঙ্গে শেয়ার করতে পারেন।
+          </p>
+        </div>
+        <div
+          class="bg-white p-6 rounded-lg shadow-md border-t-4 border-green-700"
+        >
+          <h3 class="text-2xl font-bold text-green-800 mb-4">
+            কতিপয় করণীয় ও বর্জনীয়
+          </h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- করণীয় -->
+            <div>
+              <h4 class="text-xl font-semibold text-green-700 mb-3">করণীয়</h4>
+              <ul class="list-disc list-inside space-y-2 text-gray-700">
+                <li>আল্লাহ তা'আলার উপর আস্থা রাখুন।</li>
+                <li>সালাত সুন্দর করে ধীরস্থিরভাবে আদায় করুন।</li>
+                <li>কুরআন পড়ুন ও বুঝে পড়ার চেষ্টা করুন।</li>
+                <li>আপনার সম্পদের হিসেব করে যাকাত প্রদান করুন।</li>
+                <li>গোপনে দান করুন এবং নিকট আত্মীয়দের জন্য ব্যয় করুন।</li>
+                <li>চোখের পর্দা করুন।</li>
+                <li>অন্যকে সৎকর্মের দিকে উৎসাহিত করুন।</li>
+                <li>অধীনস্থদের প্রতি সদয় থাকুন।</li>
+                <li>স্বাস্থ্যসম্মত ইফতার করুন এবং অতিভোজন পরিহার করুন।</li>
+                <li>ভোর রাতে আল্লাহর নিকট দু'আ করুন।</li>
+              </ul>
+            </div>
+            <!-- বর্জনীয় -->
+            <div>
+              <h4 class="text-xl font-semibold text-red-700 mb-3">বর্জনীয়</h4>
+              <ul class="list-disc list-inside space-y-2 text-gray-700">
+                <li>অযথা বা অর্থহীন কাজ পরিহার করুন।</li>
+                <li>টিভি সিরিয়াল, মুভি, নাটক, সিনেমা দেখা পরিহার করুন।</li>
+                <li>হারাম উপার্জন বন্ধ করুন।</li>
+                <li>তর্ক ও ঝগড়া পরিহার করুন।</li>
+                <li>মিথ্যা কথা ও কাজ পরিহার করুন।</li>
+                <li>কারো ব্যাপারে সন্দেহ বা কুধারণা করবেন না।</li>
+                <li>কারো পেছনে সমালোচনা করবেন না।</li>
+                <li>মিউজিক শুনবেন না বা গেমস খেলে সময় নষ্ট করবেন না।</li>
+                <li>আড্ডা ও দল বেঁধে গল্পগুজব পরিহার করুন।</li>
+                <li>সাহরী, ইফতার ও ঈদের কেনাকাটায় অপচয় করবেন না।</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Planner Section -->
+      <section id="planner" class="main-content active space-y-6">
+        <!-- Day Navigation -->
+        <div class="bg-white p-4 rounded-lg shadow-md">
+          <h3 class="text-xl font-semibold text-center text-green-800 mb-4">
+            দিন নির্বাচন করুন
+          </h3>
+          <!-- Mobile-friendly horizontal scroll for days -->
+          <div
+            class="flex overflow-x-auto no-scrollbar gap-2 p-2 justify-start"
+          >
+            <!-- JS will generate day tabs here -->
+          </div>
+        </div>
+
+        <!-- Day Content Container -->
+        <div id="day-content-container">
+          <!-- Content is dynamically generated by JS -->
+        </div>
+      </section>
+
+      <!-- Laylatul Qadr Section -->
+      <section id="laylatul-qadr" class="main-content">
+        <div
+          class="bg-white p-6 rounded-lg shadow-md border-t-4 border-green-700 space-y-4"
+        >
+          <h3 class="text-2xl font-bold text-green-800 mb-4 text-center">
+            লাইলাতুল ক্বদর ও ই'তিকাফ
+          </h3>
+          <p class="text-lg text-center leading-relaxed">
+            "নিশ্চয়ই আমি এ (কুরআন)-কে অবতীর্ণ করেছি মর্যাদাপূর্ণ রাত্রিতে
+            (লাইলাতুল কদর)। আপনি কি জানেন মর্যাদাপূর্ণ রাত্রি কী? মর্যাদাপূর্ণ
+            রাত্রি হাজার মাস অপেক্ষা উত্তম। ঐ রাত্রিতে ফেরেশতাগণ ও রূহ (জিবরীল)
+            অবতীর্ণ হয় প্রত্যেক কাজে তাদের প্রতিপালকের অনুমতিক্রমে। শান্তিময় সেই
+            রাত্রি ফজর উদয় হওয়া পর্যন্ত।"
+            <span class="font-semibold">[সুরা আল কদর, ৯৭:১-৫]</span>
+          </p>
+          <p class="text-lg text-center italic text-gray-700">
+            আবু হুরায়রা (রা.) বর্ণনা করেন, আল্লাহর রাসূল ﷺ বলেন, “যে ঈমান সহকারে
+            প্রতিদানের আশায় লাইলাতুল কদরে ইবাদত করবে তার অতীতের সমস্ত গুনাহ
+            ক্ষমা করে দেয়া হবে।”
+            <span class="font-semibold">(বুখারী, হাদীস ১৯০১)</span>
+          </p>
+          <p class="text-lg text-center text-gray-700">
+            লাইলাতুল ক্বদর অর্জনের সবচেয়ে নিরাপদ ও সহজ উপায় হলো, রামাদ্বানের শেষ
+            দশ দিন ই'তিকাফ করা।
+          </p>
+          <hr class="my-4" />
+          <p class="text-lg text-center text-gray-700">
+            আয়েশা (রা.) বর্ণনা করেন, আমি জিজ্ঞেস করলাম: হে আল্লাহর রাসূল, যদি
+            আমি লাইলাতুল কদর পেয়ে যাই তাহলে কী বলব? তিনি বললেন, বলবে:
+          </p>
+          <div class="text-center p-4 bg-green-100 rounded-lg">
+            <p class="text-2xl font-bold text-green-900" style="direction: rtl">
+              اللَّهُمَّ إِنَّكَ عَفُوٌّ تُحِبُّ الْعَفْوَ فَاعْfُ عَنِّي
+            </p>
+            <p class="text-lg mt-2 text-gray-800">
+              "হে আল্লাহ, আপনি ক্ষমাশীল, ক্ষমাকে ভালবাসেন, তাই আমাকে ক্ষমা করে
+              দিন।" <span class="font-semibold">[ইবনে মাজাহ ৩৮৫০]</span>
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Eid Prep Section -->
+      <section id="eid-prep" class="main-content">
+        <div
+          class="bg-white p-6 rounded-lg shadow-md border-t-4 border-green-700"
+        >
+          <h3 class="text-2xl font-bold text-green-800 mb-4 text-center">
+            ঈদের প্রস্তুতি
+          </h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <h4 class="text-xl font-semibold text-green-700 mb-3">টিপস</h4>
+              <ul class="list-disc list-inside space-y-2 text-gray-700">
+                <li>সুন্নাহসম্মত উপায়ে ঈদ উদযাপন করুন।</li>
+                <li>ঈদের সালাতের পূর্বেই ফিতরা আদায় করুন।</li>
+                <li>হাসিখুশি থাকার চেষ্টা করুন।</li>
+                <li>ঈদের জন্য নতুন জামা-কাপড় কেনা জরুরি নয়।</li>
+                <li>অপচয় করবেন না।</li>
+                <li>
+                  গরিব আত্মীয়-স্বজন, প্রতিবেশীদের শিশুদেরকে ঈদের পোশাক ও উপহার
+                  দিন।
+                </li>
+                <li>
+                  ঈদ উপলক্ষ্যে হারাম গান-বাদ্য, অশ্লীলতা পরিহার করার প্রতিজ্ঞা
+                  করুন।
+                </li>
+                <li>
+                  শুভেচ্ছা বিনিময় করুন: "তাকব্বাল্লাহু মিন্না ওয়া মিনকুম।"
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h4 class="text-xl font-semibold text-green-700 mb-3">
+                ঈদের সুন্নাহসমূহ
+              </h4>
+              <ul class="list-disc list-inside space-y-2 text-gray-700">
+                <li>সকালে ঘুম থেকে জাগ্রত হওয়া।</li>
+                <li>মিসওয়াক করা ও গোসল করা।</li>
+                <li>শরিয়তসম্মত সাজসজ্জা করা ও উত্তম পোশাক পরা।</li>
+                <li>সুগন্ধি ব্যবহার করা।</li>
+                <li>
+                  ঈদুল ফিতরে ঈদগাহে যাবার আগে মিষ্টি জাতীয় (যেমন খেজুর) খাওয়া।
+                </li>
+                <li>সকাল সকাল ঈদগাহে যাওয়া।</li>
+                <li>ঈদের সালাত ঈদগাহে আদায় করা।</li>
+                <li>এক রাস্তায় ঈদগাহে যাওয়া ও অন্য রাস্তা দিয়ে ফেরা।</li>
+                <li>পায়ে হেঁটে যাওয়া।</li>
+                <li>ঈদগাহে যাবার সময় তাকবীর পড়তে থাকা।</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Zakat Calculator Section -->
+      <section id="zakat" class="main-content">
+        <div
+          class="bg-white p-6 rounded-lg shadow-md border-t-4 border-green-700 space-y-6"
+        >
+          <h3 class="text-2xl font-bold text-green-800 mb-4 text-center">
+            যাকাত ক্যালকুলেটর
+          </h3>
+          <p class="text-center text-gray-700 leading-relaxed">
+            আস-সুন্নাহ ফাউন্ডেশনের যাকাত ক্যালকুলেটর ব্যবহার করে আপনার যাকাত
+            গণনা করুন।
+          </p>
+          <div class="text-center mt-6">
+            <a
+              href="https://assunnahfoundation.org/zakat-calculator"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-block bg-green-700 text-white text-lg font-semibold px-8 py-3 rounded-lg hover:bg-green-800 transition-colors"
+            >
+              ক্যালকুলেটর ব্যবহার করুন
+            </a>
+          </div>
+          <p class="text-center text-sm text-gray-500 mt-4">
+            আপনাকে আস-সুন্নাহ ফাউন্ডেশনের অফিশিয়াল ওয়েবসাইটে নিয়ে যাওয়া হবে।
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-green-900 text-green-200 p-6 mt-10">
+      <div class="container mx-auto max-w-6xl text-center">
+        <p>
+          This app Developed by
+          <a
+            href="https.www.facebook.com/mehedihasanovi.io/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="font-semibold hover:underline text-white"
+            >Mehedi Hasan Ovi</a
+          >
+        </p>
+        <p class="mt-2 text-sm text-green-300">
+          Original Planner by: আস-সুন্নাহ ফাউন্ডেশন<br />
+          Web: www.assunnahfoundation.org | Phone: 01551 555 400
+        </p>
+      </div>
+    </footer>
+
+    <!-- MODALS -->
+
+    <!-- Location Setup Modal -->
+    <div id="location-modal" class="modal-overlay">
+      <div class="modal-content">
+        <div class="flex justify-between items-center mb-4">
+          <h3 class="text-xl font-bold text-green-800">স্থান শনাক্ত করুন</h3>
+          <button
+            id="location-modal-close"
+            class="text-gray-400 hover:text-gray-700"
+          >
+            &times;
+          </button>
+        </div>
+
+        <div
+          class="bg-green-50 border border-green-200 p-4 rounded-lg text-center"
+        >
+          <p class="text-green-800">
+            নামাজের সময় এবং চাঁদের তারিখ দেখাতে আপনার অবস্থান জানা জরুরি।
+          </p>
+        </div>
+
+        <div class="mt-6">
+          <button
+            id="auto-location-btn"
+            class="w-full bg-green-700 text-white py-3 px-4 rounded-lg font-semibold hover:bg-green-800 transition-colors flex items-center justify-center gap-2"
+          >
+            <span id="auto-location-spinner" class="spinner hidden"></span>
+            <span>অটোমেটিক স্থান শনাক্ত করুন</span>
+          </button>
+        </div>
+
+        <div class="my-4 text-center text-gray-500">অথবা</div>
+
+        <div class="space-y-4">
+          <div>
+            <label
+              for="country-select"
+              class="block text-sm font-medium text-gray-700 mb-1"
+              >দেশ নির্বাচন করুন</label
+            >
+            <select
+              id="country-select"
+              class="w-full p-3 border border-gray-300 rounded-lg bg-white custom-select focus:outline-none focus:ring-2 focus:ring-green-500"
+            >
+              <option value="">দেশ লোড হচ্ছে...</option>
+            </select>
+          </div>
+          <div>
+            <label
+              for="city-select"
+              class="block text-sm font-medium text-gray-700 mb-1"
+              >শহর নির্বাচন করুন</label
+            >
+            <select
+              id="city-select"
+              class="w-full p-3 border border-gray-300 rounded-lg bg-white custom-select focus:outline-none focus:ring-2 focus:ring-green-500"
+              disabled
+            >
+              <option value="">আগে দেশ নির্বাচন করুন</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="mt-6 flex gap-4">
+          <button
+            id="location-save-btn"
+            class="w-full bg-green-700 text-white py-3 px-4 rounded-lg font-semibold hover:bg-green-800 transition-colors"
+            disabled
+          >
+            সংরক্ষণ
+          </button>
+        </div>
+        <p
+          id="location-modal-error"
+          class="text-red-600 text-sm mt-2 text-center"
+        ></p>
+      </div>
+    </div>
+
+    <!-- Prayer Settings Modal -->
+    <div id="settings-modal" class="modal-overlay">
+      <div class="modal-content">
+        <div class="flex justify-between items-center mb-6">
+          <h3 class="text-xl font-bold text-green-800">নামাজের সময় সেটিংস</h3>
+          <button
+            id="settings-modal-close"
+            class="text-gray-400 hover:text-gray-700 text-2xl"
+          >
+            &times;
+          </button>
+        </div>
+
+        <div class="space-y-6">
+          <div>
+            <label
+              for="asr-method-select"
+              class="block text-lg font-medium text-gray-700 mb-2"
+              >আসর সময় মেথড</label
+            >
+            <select
+              id="asr-method-select"
+              class="w-full p-3 border border-gray-300 rounded-lg bg-white custom-select focus:outline-none focus:ring-2 focus:ring-green-500"
+            >
+              <option value="h">হানাফী (Hanafi)</option>
+              <option value="s">স্ট্যান্ডার্ড (Shafii, Maliki, Hanbali)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="mt-8 flex gap-4">
+          <button
+            id="settings-cancel-btn"
+            class="w-1/2 bg-gray-200 text-gray-800 py-3 px-4 rounded-lg font-semibold hover:bg-gray-300 transition-colors"
+          >
+            বাতিল
+          </button>
+          <button
+            id="settings-save-btn"
+            class="w-1/2 bg-green-700 text-white py-3 px-4 rounded-lg font-semibold hover:bg-green-800 transition-colors"
+          >
+            সংরক্ষণ
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Disclaimer Modal -->
+    <div id="disclaimer-modal" class="modal-overlay">
+      <div class="modal-content">
+        <div class="flex justify-between items-center mb-4">
+          <h3 class="text-xl font-bold text-red-800">বিশেষ ঘোষণা</h3>
+          <button
+            id="disclaimer-modal-close"
+            class="text-gray-400 hover:text-gray-700 text-2xl"
+          >
+            &times;
+          </button>
+        </div>
+        <div class="text-center p-4 bg-red-50 rounded-lg border border-red-200">
+          <p class="text-lg text-red-900">
+            নিজ নিজ এলাকার মসজিদে গিয়ে নামাজ আদায় করুন। মসজিদের নির্ধারিত সময়
+            অনুযায়ী নামাজ পড়া উত্তম এবং ইসলামের দৃষ্টিতেও তা বেশি ফজিলতপূর্ণ।
+          </p>
+        </div>
+        <div class="mt-6 flex justify-end">
+          <button
+            id="disclaimer-ok-btn"
+            class="bg-red-600 text-white py-2 px-6 rounded-lg font-semibold hover:bg-red-700 transition-colors"
+          >
+            ঠিক আছে
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Data for the planner
+      const plannerData = [
+        // Day 1
+        {
+          day: 1,
+          ayat: {
+            ar: "وَمَا خَلَقْتُ الْجِنَّ وَالْإِنْسَ إِلَّا لِيَعْبُدُونِ",
+            bn: "আমার ইবাদাত করার জন্যই আমি মানব ও জ্বিন জাতি সৃষ্টি করেছি।",
+            ref: " সূরা আয-যারিয়াত, আয়াত: ৫৬",
+          },
+          hadith: {
+            bn: "যে ব্যক্তি ঈমানসহ পুণ্যের আশায় রামাদ্বানের সিয়াম পালন করে, তার পূর্বের গুনাহ ক্ষমা করে দেওয়া হয়।",
+            ref: "সহীহ বুখারী, হাদীস: ৩৮",
+          },
+          dua: {
+            ar: "رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَ فِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ",
+            bn: "হে আমাদের প্রতিপালক! আমাদেরকে দুনিয়ায় কল্যাণ দান করুন এবং আখিরাতে কল্যাণ দান করুন; আর জাহান্নামের শান্তি হতে আমাদেরকে রক্ষা করুন।",
+            ref: " সূরা বাকারা, আয়াত: ২০১",
+          },
+          task: "সাফল্য অর্জনের জন্য সূরা আল-মুমিনুনের প্রথম ১৫টি আয়াত অর্থসহ পড়ুন।",
+          names: [
+            { ar: "الله", bn: "আল্লাহ" },
+            { ar: "الرَّحْمَنُ", bn: "পরম দয়ালু, পরম করুণাময়" },
+            { ar: "الرَّحِيمُ", bn: "অতিশয়-মেহেরবান, অতি দয়ালু" },
+          ],
+        },
+        // Day 2
+        {
+          day: 2,
+          ayat: {
+            ar: "أَفَحَسِبْتُمْ أَنَّمَا خَلَقْتُكُمْ عَبَثًا وَأَنَّكُمْ إِلَيْنَا لَا تُرْجَعُونَ",
+            bn: "তোমরা কি ধারণা করো যে, আমি তোমাদেরকে অনর্থক সৃষ্টি করেছি এবং তোমরা আমার কাছে ফিরে আসবে না?",
+            ref: " সূরা মু'মিনুন, আয়াত: ১১৫",
+          },
+          hadith: {
+            bn: "আল্লাহ তা'আলা বলেছেন, 'বনী আদমের প্রতিটি কাজ তার নিজের জন্যেই- ব্যতিক্রম সিয়াম। তা আমার জন্য, আমি নিজেই তার পুরস্কার দেব। সিয়াম পালনকারীদের মুখের গন্ধ আল্লাহর নিকট মিশকের ঘ্রাণের চেয়েও অধিক সুগন্ধযুক্ত।'",
+            ref: "সহীহ বুখারী, হাদীস: ৫৯২৭",
+          },
+          dua: {
+            ar: "اللَّهُمَّ إِنِّي أَسْأَلُكَ الْهُدَى وَالتَّقَى وَالْعَفَافَ وَالْغِنى",
+            bn: "হে আল্লাহ! নিশ্চয় আমি আপনার নিকট হিদায়াত, তাকওয়া, চারিত্রিক নিষ্কলুষতা এবং সচ্ছলতা প্রার্থনা করছি।",
+            ref: "সহীহ মুসলিম, হাদীস: ২৭২১",
+          },
+          task: "সাহারি খেতে উঠে যথাসম্ভব দু'আ করার চেষ্টা করুন। কারণ এটি দু'আ কবুলের গুরুত্বপূর্ণ সময়।",
+          names: [
+            { ar: "الْمَلِكُ", bn: "সর্বকর্তৃত্বময়, অধিপতি" },
+            { ar: "الْقُدُّوسُ", bn: "নিষ্কলুষ, অতি পবিত্র" },
+            { ar: "السَّلَامُ", bn: "নিরাপত্তা-দানকারী, শান্তি-দানকারী" },
+          ],
+        },
+        // Day 3
+        {
+          day: 3,
+          ayat: {
+            ar: "وَأَقِيمُوا الصَّلوةَ وَآتُوا الزَّكُوةَ وَأَطِيعُوا الرَّسُولَ لَعَلَّكُمْ تُرْحَمُونَ",
+            bn: "সালাত কায়েম করো, যাকাত প্রদান করো এবং রাসূলের আনুগত্য করো, যাতে তোমরা অনুগ্রহপ্রাপ্ত হও।",
+            ref: " সূরা নূর, আয়াত: ৫৬",
+          },
+          hadith: {
+            bn: "যে ব্যক্তি মিথ্যা কথা ও কাজ বর্জন করেনি, তার এ পানাহার পরিত্যাগ করায় আল্লাহর কোনো প্রয়োজন নেই।",
+            ref: "সহীহ বুখারী, হাদীস: ১৯০৩",
+          },
+          dua: {
+            ar: "اللَّهُمَّ لَكَ صُمْتُ، وَعَلَى رِزْقِكَ أَفْطَرْتُ",
+            bn: "হে আল্লাহ! আমি আপনার উদ্দেশ্যেই সিয়াম পালন করেছি এবং আপনার দেওয়া রিযিক দ্বারাই ইফতার করেছি। (ইফতারের পর পাঠ্য দু'আ)",
+            ref: "আবু দাউদ, হাদীস: ২৩৫৮",
+          },
+          task: "মোবাইল থেকে হারাম ছবি, ভিডিও ও মিউজিক মুছে ফেলুন।",
+          names: [
+            { ar: "الْمُؤْمِنُ", bn: "সত্যায়নকারী" },
+            { ar: "الْمُهَيْمِنُ", bn: "সূক্ষ্ম পর্যবেক্ষক" },
+            { ar: "الْعَزِيزُ", bn: "পরাক্রমশালী, সর্বাধিক সম্মানিত" },
+          ],
+        },
+        // Day 4
+        {
+          day: 4,
+          ayat: {
+            ar: "يَأَيُّهَا الَّذِينَ آمَنُوا كُتِبَ عَلَيْكُمُ الصِّيَامُ كَمَا كُتِبَ عَلَى الَّذِينَ مِنْ قَبْلِكُمْ لَعَلَّكُمْ تَتَّقُوْنَ",
+            bn: "হে ঈমানদারগণ! তোমাদের উপর সিয়াম ফরয করা হয়েছে, যেরূপ ফরয করা হয়েছিল তোমাদের পূর্ববর্তী লোকদের উপর, যেন তোমরা তাকওয়া অর্জন করতে পার।",
+            ref: " সূরা বাকারা, আয়াত: ১৮৩",
+          },
+          hadith: {
+            bn: "যে তার প্রতিপালকের যিক্র করে, আর যে যিক্র করে না, তাদের উপমা হলো জীবিত ও মৃত ব্যক্তির মতো।",
+            ref: "সহীহ বুখারী, হাদীস: ৬৪০৭",
+          },
+          dua: {
+            ar: "ذَهَبَ الظَّمَأُ وَابْتَلَتِ الْعُرُوقُ، وَثَبَتَ الْأَجْرُ إِنْ شَاءَ اللَّهُ",
+            bn: "পিপাসা দূরিভূত হয়েছে, শিরা-উপশিরা সিক্ত হয়েছে। ইন শা আল্লাহ প্রতিদান নির্ধারিত রয়েছে। (ইফতারের সময় পাঠ্য দু'আ)",
+            ref: "আবু দাউদ, হাদীস: ২৩৫৭",
+          },
+          task: "অনেক দিন কথা বলা হয় না, পরিবারের এমন কারো সাথে কিছুক্ষণ ফোনে কথা বলুন।",
+          names: [
+            { ar: "الْجَبَّارُ", bn: "মহাপ্রতাপশালী" },
+            { ar: "الْمُتَكَبِّرُ", bn: "অহংকারী" },
+            { ar: "الْخَالِقُ", bn: "সৃষ্টিকর্তা, সৃষ্টিকারী" },
+          ],
+        },
+        // Day 5
+        {
+          day: 5,
+          ayat: {
+            ar: "يَمْحَقُ اللَّهُ الرِّبَا وَيُرْبِي الصَّدَقَاتِ وَاللَّهُ لَا يُحِبُّ كُلَّ كَفَّارٍ أَثِيمٍ",
+            bn: "আল্লাহ তা'আলা সুদকে নিশ্চিহ্ন করেন এবং দান-সাদাকা বর্ধিত করেন। আল্লাহ পছন্দ করেন না কোনো অবিশ্বাসী পাপীকে।",
+            ref: " সূরা বাকারা, আয়াত: ২৭৬",
+          },
+          hadith: {
+            bn: "ইবনু আব্বাস (রা.) হতে বর্ণিত, 'আল্লাহর রাসূল ﷺ ছিলেন সর্বশ্রেষ্ঠ দানশীল। রামাদ্বানে তিনি আরো অধিক দানশীল হতেন, যখন জিবরীল (আ.) তাঁর সঙ্গে সাক্ষাৎ করতেন। ... রাসূলুল্লাহ ﷺ প্রবহমান বাতাস থেকেও অধিক দানশীল ছিলেন।'",
+            ref: "সহীহ বুখারী, হাদীস: ৬",
+          },
+          dua: {
+            ar: "رَبَّنَا لَا تُزِغْ قُلُوبَنَا بَعْدَ إِذْ هَدَيْتَنَا وَهَبْ لَنَا مِنْ لَدُنْكَ رَحْمَةً إِنَّكَ أَنْتَ الْوَهَّابُ",
+            bn: "হে আমাদের প্রতিপালক! আমাদেরকে পথ প্রদর্শনের পর আমাদের অন্তরসমূহ বক্র করবেন না এবং আমাদের প্রতি অনুগ্রহ করুন। নিশ্চয় আপনি মহাদাতা।",
+            ref: " সূরা আলে ইমরান, আয়াত: ৮",
+          },
+          task: "কোনো সিয়াম পালনকারীকে খেজুর ও পানি দিয়ে ইফতার করান।",
+          names: [
+            { ar: "الْبَارِئُ", bn: "উদ্ভাবনকর্তা" },
+            { ar: "الْمُصَوِّرُ", bn: "আকৃতি-দানকারী" },
+            { ar: "الْغَفَّارُ", bn: "পরম ক্ষমাশীল, অতি ক্ষমাশীল" },
+          ],
+        },
+        // Day 6
+        {
+          day: 6,
+          ayat: {
+            ar: "تَعَاوَنُوا عَلَى الْبِرِّ وَالتَّقْوَى وَلَا تَعَاوَنُوا عَلَى الْإِثْمِ وَالْعُدْوَانِ وَاتَّقُوا اللَّهَ إِنَّ اللَّهَ شَدِيدُ الْعِقَابِ",
+            bn: "সৎকর্ম ও তাকওয়ার কাজে একে অন্যের সাহায্য করো। পাপ ও সীমালঙ্ঘনের ব্যাপারে একে অন্যের সহায়তা করো না। আল্লাহকে ভয় করো। নিশ্চয় আল্লাহ তা'আলা কঠোর শান্তিদাতা।",
+            ref: " সূরা মায়িদা, আয়াত: ২",
+          },
+          hadith: {
+            bn: "যে ব্যক্তি মানুষের প্রতি কৃতজ্ঞতা প্রকাশ করে না, সে আল্লাহ তা'আলার প্রতিও কৃতজ্ঞতা প্রকাশ করে না।",
+            ref: "তিরমিযী, হাদীস: ১৯৫৪",
+          },
+          dua: {
+            ar: "بِسْمِ اللَّهِ الَّذِي لَا يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الْأَرْضِ وَلَا فِي السَّمَاءِ وَهُوَ السَّمِيعُ الْعَلِيمُ",
+            bn: "আল্লাহর নামে, যাঁর নামের বরকতে আসমান ও জমিনের কোনো কিছুই ক্ষতি করতে পারে না, তিনি সর্বশ্রোতা, মহাজ্ঞানী।",
+            ref: "আবু দাউদ, ৫০৮৮; তিরমিযী, ৩৩৮৮",
+          },
+          task: "যার প্রতি আপনার হিংসা কিংবা পার্থিব প্রতিযোগিতা আছে, তার উন্নতির জন্য দু'আ করুন।",
+          names: [
+            { ar: "الْقَهَّارُ", bn: "প্রবল প্রতাপশালী" },
+            { ar: "الْوَهَّابُ", bn: "মহাদাতা" },
+            { ar: "الرَّزَّاقُ", bn: "মহারিযিকদাতা" },
+          ],
+        },
+        // Day 7
+        {
+          day: 7,
+          ayat: {
+            ar: "يَأَيُّهَا الَّذِينَ آمَنُوا اتَّقُوا اللَّهَ وَكُونُوا مَعَ الصَّادِقِينَ",
+            bn: "হে ঈমানদারগণ! আল্লাহকে ভয় করো এবং সত্যবাদীদের সাথে থাকো।",
+            ref: " সূরা তাওবা, আয়াত: ১১৯",
+          },
+          hadith: {
+            bn: "রাসূলুল্লাহ ﷺ বলেন, 'আমাকে জিবরীল (আ.) সর্বদা প্রতিবেশীর ব্যাপারে ওসিয়ত করতে থাকেন। এমনকি আমার ধারণা হয় যে, শীঘ্রই তিনি প্রতিবেশীকে ওয়ারিশ হওয়ার ঘোষণা দিবেন।'",
+            ref: "সহীহ বুখারী, হাদীস: ৬০১৪",
+          },
+          dua: {
+            ar: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْكُفْرِ وَالْفَقْرِ اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ عَذَابِ الْقَبْرِ لَا إِلَهَ إِلَّا أَنْتَ",
+            bn: "হে আল্লাহ! আমি আপনার নিকট কুফরি ও দারিদ্র্য থেকে আশ্রয় চাইছি। হে আল্লাহ! আমি কবরের আযাব থেকে আপনার নিকট আশ্রয় চাইছি, আপনি ছাড়া অন্য কোনো ইলাহ নেই।",
+            ref: "আবু দাউদ, হাদীস: ৫০৯০",
+          },
+          task: "চোখের গুনাহ থেকে নিজেকে সংযত রাখার চেষ্টা করুন।",
+          names: [
+            { ar: "الْوَاسِعُ", bn: "প্রাচুর্যময়" },
+            { ar: "الْحَكِيمُ", bn: "প্রজ্ঞাময়" },
+            { ar: "الْوَدُودُ", bn: "অতি স্নেহময়, প্রেমময়" },
+          ],
+        },
+        // Day 8
+        {
+          day: 8,
+          ayat: {
+            ar: "وَأَقِيمُوا الصَّلوةَ وَأتُوا الزَّكُوةَ وَارْكَعُوا مَعَ الرَّاكِعِينَ",
+            bn: "আর সালাত কায়েম করো, যাকাত প্রদান করো এবং সালাতে অবনত হও তাদের সাথে, যারা অবনত হয়।",
+            ref: " সূরা বাকারা, আয়াত: ৪৩",
+          },
+          hadith: {
+            bn: "রাসূলুল্লাহ ﷺ বলেছেন, 'কিয়ামতের দিন সে-ই আমার নিকটতম ব্যক্তি হবে, যে আমার প্রতি বেশি পরিমাণে দরূদ পাঠ করেছে।'",
+            ref: "তিরমিযী, হাদীস: ৪৮৪",
+          },
+          dua: {
+            ar: "رَبِّ ارْحَمْهُمَا كَمَا رَبَّيَانِي صَغِيرًا",
+            bn: "হে আমার প্রতিপালক! আমার পিতা-মাতার প্রতি দয়া করুন, যেরূপ শৈশবে তাঁরা আমাকে লালন-পালন করেছেন।",
+            ref: " সূরা বানী ইসরাঈল, আয়াত: ২৪",
+          },
+          task: "সালাতের সময় হওয়ার আগেই অযু করে মসজিদে (মহিলারা জায়নামাযে) অবস্থান করুন।",
+          names: [
+            { ar: "الْمَجِيدُ", bn: "অতি সম্মানিত, মর্যাদাবান" },
+            { ar: "الْأَحَدُ", bn: "একক, অদ্বিতীয়" },
+            { ar: "الشَّهِيدُ", bn: "প্রত্যক্ষদর্শী" },
+          ],
+        },
+        // Day 9
+        {
+          day: 9,
+          ayat: {
+            ar: "يَأَيُّهَا الَّذِينَ آمَنُوا اتَّقُوا اللَّهَ حَقَّ تُقَاتِهِ وَلَا تَمُوتُنَّ إِلَّا وَأَنْتُمْ مُسْلِمُونَ",
+            bn: "হে ঈমানদারগণ! আল্লাহকে যেমন ভয় করা উচিত ঠিক তেমনিভাবে ভয় করো এবং অবশ্যই মুসলিম (আত্মসমর্পণকারী) না হয়ে মৃত্যুবরণ করো না।",
+            ref: " সূরা আলে ইমরান, আয়াত: ১০২",
+          },
+          hadith: {
+            bn: "অনর্থক-অপ্রয়োজনীয় বিষয় ত্যাগ করাই একজন ব্যক্তির উত্তম ইসলাম।",
+            ref: "ইবনে মাজাহ, হাদীস: ৩৯৭৬",
+          },
+          dua: {
+            ar: "رَبَّنَا أَفْرِغْ عَلَيْنَا صَبْرًا وَتَوَفَّنَا مُسْلِمِينَ",
+            bn: "হে আমাদের প্রতিপালক! আমাদেরকে ধৈর্য্যশীলতা দান করুন এবং আমাদেরকে মুসলিমরূপে মৃত্যু দান করুন।",
+            ref: " সূরা আ'রাফ, আয়াত: ১২৬",
+          },
+          task: "আজ সবার সাথে সাধ্যমত হাসিমুখে সাক্ষাৎ করুন ও কথা বলুন।",
+          names: [
+            { ar: "الْحَقُّ", bn: "অতীব সত্য" },
+            { ar: "الْوَكِيلُ", bn: "তত্ত্বাবধায়ক" },
+            { ar: "الْقَوِيُّ", bn: "প্রবল শক্তিমান" },
+          ],
+        },
+        // Day 10
+        {
+          day: 10,
+          ayat: {
+            ar: "وَمَنْ يَبْتَغِ غَيْرَ الْإِسْلَامِ دِينًا فَلَنْ يُقْبَلَ مِنْهُ وَهُوَ فِي الْآخِرَةِ مِنَ الْخَاسِرِينَ",
+            bn: "যে লোক ইসলাম ছাড়া অন্য কোনো ধর্ম তালাশ করে, কস্মিণকালেও তা গ্রহণ করা হবে না এবং আখিরাতে সে হবে ক্ষতিগ্রস্ত।",
+            ref: " সূরা আলে ইমরান, আয়াত: ৮৫",
+          },
+          hadith: {
+            bn: "যে আল্লাহ ও আখিরাতের প্রতি বিশ্বাস রাখে, সে যেন তার প্রতিবেশীকে কষ্ট না দেয়। ... সে যেন ভালো কথা বলে কিংবা চুপ থাকে।",
+            ref: "সহীহ বুখারী, হাদীস: ৬০১৮",
+          },
+          dua: {
+            ar: "رَبَّنَا هَبْ لَنَا مِنْ أَزْوَاجِنَا وَذُرِّيَّاتِنَا قُرَّةَ أَعْيُنٍ وَاجْعَلْنَا لِلْمُتَّقِينَ إِمَامًا",
+            bn: "হে আমাদের প্রতিপালক! আমাদেরকে এমন জীবনসঙ্গী ও সন্তানাদি দান করুন যারা আমাদের চোখ জুড়িয়ে দেয় আর আমাদেরকে মুত্তাকীদের নেতা বানিয়ে দিন।",
+            ref: " সূরা ফুরকান, আয়াত: ৭৪",
+          },
+          task: "একজন গৃহহীন অথবা অভাবীকে একবেলার খাবার কিনে দিন।",
+          names: [
+            { ar: "الْمَتِينُ", bn: "মহাশক্তিমান" },
+            { ar: "الْوَلِيُّ", bn: "বন্ধু, অভিভাবক" },
+            { ar: "الْحَمِيدُ", bn: "সর্বপ্রশংসিত" },
+          ],
+        },
+        // Day 11
+        {
+          day: 11,
+          ayat: {
+            ar: "وَمَا أُمِرُوا إِلَّا لِيَعْبُدُوا اللَّهَ مُخْلِصِينَ لَهُ الدِّينَ حُنَفَاءَ وَيُقِيمُوا الصَّلَاةَ وَيُؤْتُوا الزَّكَاةَ وَذَلِكَ دِينُ الْقَيِّمَةِ",
+            bn: "তাদেরকে এ ছাড়া অন্য কোনো নির্দেশ দেয়া হয়নি যে, তারা খাঁটি মনে একনিষ্ঠভাবে আল্লাহর ইবাদাত করবে, সালাত কায়েম করবে এবং যাকাত দেবে। এটাই সঠিক দীন।",
+            ref: " সূরা বাইয়্যিনাহ, আয়াত: ৫",
+          },
+          hadith: {
+            bn: "যে ব্যক্তি আল্লাহর কিতাবের একটি অক্ষর পাঠ করবে, তার জন্য এর বিনিময়ে একটি সাওয়াব হবে। আর প্রতিটি সাওয়াব দশ গুণ বৃদ্ধি করে দেওয়া হবে। ... আলিফ একটি অক্ষর, লাম একটি অক্ষর এবং মীম একটি অক্ষর।",
+            ref: "তিরমিযী, হাদীস: ২৯১০",
+          },
+          dua: {
+            ar: "اللَّهُمَّ اكْفِنِي بِحَلَالِكَ عَنْ حَرَامِكَ، وَاغْنِنِي بِفَضْلِكَ عَمَّنْ سِوَاكَ",
+            bn: "হে আল্লাহ! আপনি আমার জন্য হারামের পরিবর্তে হালালকে যথেষ্ঠ করে দিন এবং আমাকে আপন অনুগ্রহ দ্বারা আপনি ছাড়া অন্যের মুখাপেক্ষিতা থেকে মুক্ত করুন।",
+            ref: "তিরমিযী, হাদীস: ৩৫৬৩",
+          },
+          task: "আপনার পিতা-মাতা ও পরিবারের কাজে সাহায্য করুন।",
+          names: [
+            { ar: "الطَّيِّبُ", bn: "মহাপবিত্র" },
+            { ar: "الْقَدِيرُ", bn: "সর্বশক্তিমান, মহা প্রতাপশালী" },
+            { ar: "الرَّبُّ", bn: "প্রভু, প্রতিপালক" },
+          ],
+        },
+        // Day 12
+        {
+          day: 12,
+          ayat: {
+            ar: "إِنَّمَا وَلِيُّكُمُ اللَّهُ وَرَسُولُهُ وَالَّذِينَ آمَنُوا الَّذِينَ يُقِيمُونَ الصَّلَاةَ وَيُؤْتُونَ الزَّكَاةَ وَهُمْ رَاكِعُونَ",
+            bn: "তোমাদের বন্ধু তো আল্লাহ, তাঁর রাসূল এবং মুমিনবৃন্দ যারা সালাত কায়েম করে, যাকাত দেয় এবং বিনম্র।",
+            ref: " সূরা মায়িদা, আয়াত: ৫৫",
+          },
+          hadith: {
+            bn: "হাস্যোজ্জ্বল মুখে কারো সঙ্গে সাক্ষাৎ তোমার জন্য সাদাকাস্বরূপ। সৎকাজের আদেশ এবং অসৎকাজ হতে বিরত থাকার নির্দেশ তোমার জন্য সাদাকাস্বরূপ।",
+            ref: "তিরমিযী, হাদীস: ১৯৫৬",
+          },
+          dua: {
+            ar: "رَبِّ أَوْزِعْنِي أَنْ أَشْكُرَ نِعْمَتَكَ الَّتِي أَنْعَمْتَ عَلَيَّ وَعَلَى وَالِدَيَّ وَأَنْ أَعْمَلَ صَالِحًا تَرْضَاهُ وَأَدْخِلْنِي بِرَحْمَتِكَ فِي عِبَادِكَ الصَّالِحِينَ",
+            bn: "হে আমার প্রতিপালক! আপনি আমার প্রতি ও আমার পিতা-মাতার প্রতি যে অনুগ্রহ করেছেন, তার জন্য আমাকে আপনার শুকরিয়া আদায় করার তাওফীক দিন। ...",
+            ref: " সূরা নামল, আয়াত: ১৯",
+          },
+          task: "ইফতার গ্রহণের মধ্যেও মাগরিবের আযানের জবাব দিতে ভুলবেন না।",
+          names: [
+            { ar: "الْقَرِيبُ", bn: "সর্বাধিক নিকটবর্তী" },
+            { ar: "الْخَلَّاقُ", bn: "মহাস্রষ্টা" },
+            { ar: "الْحَيُّ", bn: "চিরঞ্জীব" },
+          ],
+        },
+        // Day 13
+        {
+          day: 13,
+          ayat: {
+            ar: "إِنَّمَا الْمُؤْمِنُونَ الَّذِينَ إِذَا ذُكِرَ اللَّهُ وَجِلَتْ قُلُوبُهُمْ وَإِذَا تُلِيَتْ عَلَيْهِمْ آيَاتُهُ زَادَتْهُمْ إِيمَانًا وَعَلَى رَبِّهِمْ يَتَوَكَّلُونَ",
+            bn: "যারা ঈমানদার, তারা এমন যে, যখন আল্লাহর নাম নেওয়া হয় তখন ভীত হয়ে পড়ে তাদের অন্তর। আর যখন তাদের সামনে পাঠ করা হয় কালাম, তখন তাদের ঈমান বেড়ে যায়...",
+            ref: " সূরা আনফাল, আয়াত: ২",
+          },
+          hadith: {
+            bn: "রাসূলুল্লাহ ﷺ বলেছেন, আমি কি তোমাদেরকে জান্নাতী লোকদের পরিচয় বলব না? তারা হবে দুর্বল এবং নিরীহ...। আমি কি তোমাদেরকে জাহান্নামী লোকদের পরিচয় বলব না? তারা রূঢ় স্বভাবের, কঠিন হৃদয়ের এবং অহংকারী হবে।",
+            ref: "সহীহ বুখারী, হাদীস: ৪৯১৮",
+          },
+          dua: {
+            ar: "لَا إِلَهَ إِلَّا أَنْتَ سُبْحَانَكَ إِنِّي كُنْتُ مِنَ الظَّالِمِينَ",
+            bn: "আপনি ছাড়া কোনো মা'বুদ নেই। আমি আপনার পবিত্রতা বর্ণনা করছি। নিশ্চয় আমি নিজের প্রতি অবিচারকারীদের অন্তর্ভুক্ত।",
+            ref: " সূরা আম্বিয়া, আয়াত: ৮৭",
+          },
+          task: "যার সঙ্গে আপনার মনোমালিন্য আছে, তার সঙ্গে সম্পর্ক স্থাপন করুন।",
+          names: [
+            { ar: "الْقَيُّومُ", bn: "সর্বসত্তার ধারক, স্বয়ংসম্পূর্ণ" },
+            { ar: "الْمُبِينُ", bn: "স্পষ্ট" },
+            { ar: "الْقَرِيبُ", bn: "সর্বাধিক নিকটবর্তী, মহান" },
+          ],
+        },
+        // Day 14
+        {
+          day: 14,
+          ayat: {
+            ar: "قُلْ إِنَّ صَلَاتِي وَنُسُكِي وَمَحْيَايَ وَمَمَاتِي لِلَّهِ رَبِّ الْعَالَمِينَ",
+            bn: "আপনি বলুন, আমার সালাত, আমার কুরবানী এবং আমার জীবন ও মরণ বিশ্ব-প্রতিপালক আল্লাহরই জন্যে।",
+            ref: " সূরা আন'আম, আয়াত: ১৬২",
+          },
+          hadith: {
+            bn: "বান্দা সিজদারত অবস্থায় তার প্রতিপালকের অধিক নিকটবর্তী হয়। অতএব তোমরা (সিজদায়) অধিক পরিমাণে দু'আ করো।",
+            ref: "সহীহ মুসলিম, হাদীস: ৪৮২",
+          },
+          dua: {
+            ar: "رَبَّنَا ظَلَمْنَا أَنْفُسَنَا وَإِنْ لَّمْ تَغْفِرْ لَنَا وَتَرْحَمْنَا لَنَكُونَنَّ مِنَ الْخَاسِرِينَ",
+            bn: "হে আমাদের প্রতিপালক! আমরা নিজেদের প্রতি অন্যায় করেছি। আপনি যদি আমাদেরকে ক্ষমা না করেন এবং আমাদের প্রতি দয়া না করেন, তাহলে আমরা ক্ষতিগ্রস্তদের অন্তর্ভুক্ত হব।",
+            ref: " সূরা আরাফ, আয়াত: ২৩",
+          },
+          task: "কেউ যদি আপনার সাথে তর্কে লিপ্ত হয়, আপনি সঠিক হওয়া সত্ত্বেও এড়িয়ে যান।",
+          names: [
+            { ar: "الْبَاسِطُ", bn: "সম্প্রসারণকারী" },
+            { ar: "الْوِتْرُ", bn: "বিজোড় বা একক" },
+            { ar: "الشَّاكِرُ", bn: "পুরস্কারদাতা" },
+          ],
+        },
+        // Day 15
+        {
+          day: 15,
+          ayat: {
+            ar: "وَلَقَدْ أُوحِيَ إِلَيْكَ وَإِلَى الَّذِينَ مِنْ قَبْلِكَ لَئِنْ أَشْرَكْتَ لَيَحْبَطَنَّ عَمَلُكَ وَلَتَكُونَنَّ مِنَ الْخَاسِرِينَ",
+            bn: "আপনার প্রতি ও আপনার পূর্ববর্তীদের প্রতি প্রত্যাদেশ হয়েছে, যদি আপনি আল্লাহর সঙ্গে শিরক করেন, তবে আপনার কর্ম নিষ্ফল হবে এবং আপনি ক্ষতিগ্রস্তদের একজন হবেন।",
+            ref: " সূরা যুমার, আয়াত: ৬৫",
+          },
+          hadith: {
+            bn: "অনেক সিয়াম পালনকারী আছে যারা সিয়াম দ্বারায় উপোস থাকা ছাড়া আর কিছু পায় না। অনেক রাতজেগে সালাত আদায়কারী আছে যারা রাত্রি-জাগরণ ব্যতীত আর কিছু লাভ করে না।",
+            ref: "ইবনে মাজাহ, হাদীস ১৬৮৯",
+          },
+          dua: {
+            ar: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ عَذَابِ الْقَبْرِ وَمِنْ عَذَابِ النَّارِ وَمِنْ فِتْنَةِ الْمَحْيَا وَالْمَمَاتِ وَأَعُوذُ بِكَ مِنْ فِتْنَةِ الْمَسِيحِ الدَّجَّالِ",
+            bn: "হে আল্লাহ! আমি আপনার নিকট পানাহ চাই কবরের আযাব থেকে, জাহান্নামের আযাব থেকে, জীবন ও মরণের ফিতনা থেকে এবং ... মাসীহ দাজ্জালের ফিতনা থেকে।",
+            ref: "বুখারী, হাদীস: ১৩৭৭",
+          },
+          task: "একজন এতিমের মাথায় হাত বুলান, তাকে স্নেহ করুন এবং কিছু উপহার দিন।",
+          names: [
+            { ar: "الْكَافِي", bn: "যথেষ্ট" },
+            { ar: "الشَّافِي", bn: "আরোগ্যদাতা" },
+            { ar: "السَّمِيعُ", bn: "সর্বশ্রোতা" },
+          ],
+        },
+        // Day 16
+        {
+          day: 16,
+          ayat: {
+            ar: "مَا آتَاكُمُ الرَّسُولُ فَخُذُوهُ وَمَا نَهَاكُمْ عَنْهُ فَانْتَهُوا وَاتَّقُوا اللَّهَ إِنَّ اللَّهَ شَدِيدُ الْعِقَابِ",
+            bn: "রাসূল তোমাদেরকে যা দেন, তা গ্রহণ করো এবং যা নিষেধ করেন, তা থেকে বিরত থাকো এবং আল্লাহকে ভয় করো। নিশ্চয় আল্লাহ কঠোর শান্তিদাতা।",
+            ref: " সূরা হাশর, আয়াত: ৭",
+          },
+          hadith: {
+            bn: "আত্মীয়তার সম্পর্ক ছিন্নকারী জান্নাতে প্রবেশ করতে পারবে না।",
+            ref: "সহীহ মুসলিম, হাদীস: ২৫৫৬",
+          },
+          dua: {
+            ar: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ مُنْكَرَاتِ الْأَخْلَاقِ وَالْأَعْمَالِ وَالْأَهْوَاءِ",
+            bn: "হে আল্লাহ! আমি আপনার নিকট দুশ্চরিত্র, গর্হিত কাজ ও কুপ্রবৃত্তি থেকে আশ্রয় চাই।",
+            ref: "তিরমিযী, হাদীস: ৩৫৯১",
+          },
+          task: "অধিক পরিমাণে যিক্র মগ্ন হোন এবং প্রশান্তি খুঁজুন। যেমন- সুবহানাল্লা-হ, আলহামদু লিল্লা-হ, আল্লাহু আকবার।",
+          names: [
+            { ar: "الْبَصِيرُ", bn: "সর্বদ্রষ্টা" },
+            { ar: "الْحَكَمُ", bn: "ফয়সালাদাতা" },
+            { ar: "النَّصِيرُ", bn: "সাহায্যকারী" },
+          ],
+        },
+        // Day 17
+        {
+          day: 17,
+          ayat: {
+            ar: "يَأَيُّهَا الَّذِينَ آمَنُوا إِنْ جَاءَكُمْ فَاسِقٌ بِنَبَإٍ فَتَبَيَّنُوا أَنْ تُصِيبُوا قَوْمًا بِجَهَالَةٍ فَتُصْبِحُوا عَلَى مَا فَعَلْتُمْ نَادِمِينَ",
+            bn: "মুমিনগণ! যদি কোন ফাসেক ব্যক্তি তোমাদের কাছে কোনো সংবাদ আনয়ন করে, তবে তোমরা পরীক্ষা করে দেখবে, যাতে অজ্ঞতাবশত তোমরা কোনো সম্প্রদায়ের ক্ষতিসাধনে প্রবৃত্ত না হও...",
+            ref: " সূরা হুজুরাত, আয়াত: ৬",
+          },
+          hadith: {
+            bn: "মুনাফিকের আলামত তিনটি। ১. কথা বললে, মিথ্যা বলে। ২. অঙ্গীকার করলে, ভঙ্গ করে। ৩. তার কাছে আমানত রাখা হলে, খেয়ানত করে।",
+            ref: "সহীহ বুখারী, হাদীস: ৩৩",
+          },
+          dua: {
+            ar: "رَبِّ أَدْخِلْنِي مُدْخَلَ صِدْقٍ وَأَخْرِجْنِي مُخْرَجَ صِدْقٍ وَاجْعَلْ لِي مِنْ لَدُنْكَ سُلْطَانًا نَصِيرًا",
+            bn: "হে আমার প্রতিপালক! আমাকে প্রবেশ করান উত্তমভাবে, আমাকে বের করান উত্তমভাবে; আর আপনার পক্ষ থেকে আমাকে সাহায্যকারী শক্তি দান করুন।",
+            ref: " সূরা বানী ইসরাঈল, আয়াত: ৮০",
+          },
+          task: "সূরা মাউনের অনুবাদ পড়ুন এবং একটি ভালো কাজ করুন। যেমন- কাউকে টাকা ভাংতি দিন।",
+          names: [
+            { ar: "اللَّطِيفُ", bn: "সূক্ষ্মদর্শী, অনুগ্রহকারী" },
+            { ar: "الْخَبِيرُ", bn: "সবিশেষ অবহিত" },
+            { ar: "الْحَلِيمُ", bn: "পরম সহিষ্ণু" },
+          ],
+        },
+        // Day 18
+        {
+          day: 18,
+          ayat: {
+            ar: "يَأَيُّهَا الَّذِينَ آمَنُوا اجْتَنِبُوا كَثِيرًا مِنَ الظَّنِّ إِنَّ بَعْضَ الظَّنِّ إِثْمٌ",
+            bn: "মুমিনগণ, তোমরা অনেক ধারণা থেকে বেঁচে থাকো। নিশ্চয় কতক ধারণা গোনাহ।",
+            ref: " সূরা হুজুরাত, আয়াত: ১২",
+          },
+          hadith: {
+            bn: "আবু হুরায়রা (রা.) হতে বর্ণিত, তিনি বলেন, 'নাবী ﷺ প্রতি রামাদ্বানে দশ দিন ই'তিকাফ করতেন। যে বছর তিনি মৃত্যুবরণ করেন, সে বছর তিনি বিশ দিন ই'তিকাফ করেছিলেন।'",
+            ref: "সহীহ বুখারী, হাদীস: ২০৪৪",
+          },
+          dua: {
+            ar: "رَبِّ اجْعَلْنِي مُقِيمَ الصَّلَاةِ وَمِنْ ذُرِّيَّتِي رَبَّنَا وَتَقَبَّلْ دُعَاءِ",
+            bn: "হে আমার প্রতিপালক! আমাকে সালাত কায়েমকারী বানান এবং আমার বংশধরদের মধ্য থেকেও। হে আমাদের রব! আর আপনি আমার দুআ কবুল করুন।",
+            ref: " সূরা ইবরাহীম, আয়াত: ৪০",
+          },
+          task: "ঋণগ্রহীতার ঋণের কিছু অংশ মাফ করে দিন এবং আল্লাহর কাছে তার বিনিময় প্রত্যাশা করুন।",
+          names: [
+            { ar: "الْعَظِيمُ", bn: "অতি মহান" },
+            { ar: "الْغَفُورُ", bn: "মহাক্ষমাশীল" },
+            { ar: "الشَّكُورُ", bn: "গুণগ্রাহী" },
+          ],
+        },
+        // Day 19
+        {
+          day: 19,
+          ayat: {
+            ar: "قُلْ هَلْ يَسْتَوِي الَّذِينَ يَعْلَمُونَ وَالَّذِينَ لَا يَعْلَمُونَ إِنَّمَا يَتَذَكَّرُ أُولُو الْأَلْبَابِ",
+            bn: "বলুন, যারা জানে এবং যারা জানে না; তারা কি সমান হতে পারে? উপদেশ তারা গ্রহণ করে, যারা বুদ্ধিমান।",
+            ref: " সূরা যুমার, আয়াত: ৯",
+          },
+          hadith: {
+            bn: "তোমরা রামাদ্বানের শেষ দশকের বেজোড় রাতে লাইলাতুল কদরের অনুসন্ধান করো।",
+            ref: "সহীহ বুখারী, হাদীস: ২০১৭",
+          },
+          dua: {
+            ar: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ جَهْدِ الْبَلَاءِ وَدَرَكِ الشَّقَاءِ، وَسُوءِ الْقَضَاءِ، وَشَمَاتَةِ الْأَعْدَاءِ",
+            bn: "হে আল্লাহ! আপনার নিকট আশ্রয় প্রার্থনা করছি ভয়ানক বিপদ, দুর্ভাগ্য, মন্দ পরিণতি এবং শত্রুর আনন্দ থেকে।",
+            ref: "সহীহ বুখারী, হাদীস: ৬৬১৬",
+          },
+          task: "বাসায় প্রবেশের পর পেশাগত কাজের ভাবনা ও ব্যস্ততা পরিহার করুন এবং পরিবারকে সময় দিন।",
+          names: [
+            { ar: "الْعَلِيُّ", bn: "সুউচ্চ" },
+            { ar: "الْكَبِيرُ", bn: "সুমহান" },
+            { ar: "الْحَفِيظُ", bn: "রক্ষণবেক্ষণকারী" },
+          ],
+        },
+        // Day 20
+        {
+          day: 20,
+          ayat: {
+            ar: "قُلْ يَا عِبَادِيَ الَّذِينَ أَسْرَفُوا عَلَى أَنْفُsِهِمْ لَا تَقْنَطُوا مِنْ رَحْمَةِ اللَّهِ إِنَّ اللَّهَ يَغْfِرُ الذُّنُوبَ جَمِيعًا إِنَّهُ هُوَ الْغَفُورُ الرَّحِيمُ",
+            bn: "বলুন, হে আমার বান্দাগণ যারা নিজেদের উপর যুলুম করেছ তোমরা আল্লাহর রহমত থেকে নিরাশ হয়ো না। নিশ্চয় আল্লাহ সমস্ত গুনাহ মাফ করেন। তিনি ক্ষমাশীল, পরম দয়ালু।",
+            ref: " সূরা যুমার, আয়াত: ৫৩",
+          },
+          hadith: {
+            bn: "যে ব্যক্তি কোনো সিয়াম পালনকারীকে ইফতার করাবে, তার জন্য সিয়াম পালনকারীর সমপরিমাণ সাওয়াব থাকবে। কিন্তু এর ফলে সিয়াম পালনকারীর সাওয়াব থেকে বিন্দুমাত্র কমানো হবে না।",
+            ref: "তিরমিযী, হাদীস: ৮০৭",
+          },
+          dua: {
+            ar: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْأَرْبَعِ مِنْ عِلْمٍ لَا يَنْفَعُ، وَمِنْ قَلْبٍ لَا يَخْشَعُ، وَمِنْ نَفْسٍ لَا تَشْبَعُ، وَمِنْ دُعَاءٍ لَا يُسْمَعُ",
+            bn: "হে আল্লাহ! আমি আপনার কাছে চারটি বিষয় থেকে আশ্রয় চাই- এমন জ্ঞান থেকে যা উপকারে আসে না, এমন হৃদয় থেকে যা ভীত হয় না, এমন আত্মা থেকে যা তৃপ্ত হয় না এবং এমন দু'আ থেকে যা কবুল হয় না।",
+            ref: "আবু দাউদ, হাদীস: ১৫৪৮",
+          },
+          task: "আপনি নিজে ও আপনার পরিবারকে ইবাদতের জন্য রাত্রি জাগরণ করতে উৎসাহিত করুন।",
+          names: [
+            { ar: "الْمُقِيتُ", bn: "রক্ষক, প্রত্যক্ষদর্শী" },
+            { ar: "الْحَسِيبُ", bn: "হিসেবকর্তা" },
+            { ar: "الْجَمِيلُ", bn: "অতীব সুন্দর" },
+          ],
+        },
+        // Day 21
+        {
+          day: 21,
+          ayat: {
+            ar: "إِنْ تَجْتَنِبُوا كَبَائِرَ مَا تُنْهَوْنَ عَنْهُ نُكَفِّرْ عَنْكُمْ سَيِّئَاتِكُمْ وَنُدْخِلْكُمْ مُدْخَلًا كَرِيمًا",
+            bn: "যেগুলো সম্পর্কে তোমাদের নিষেধ করা হয়েছে যদি তোমরা সেসব বড় গুনাহ থেকে বেঁচে থাকতে পার, তবে আমি তোমাদের ত্রুটি-বিচ্যুতিগুলো ক্ষমা করে দেব এবং সম্মানজনক স্থানে তোমাদের প্রবেশ করাব।",
+            ref: " সূরা নিসা, আয়াত: ৩১",
+          },
+          hadith: {
+            bn: "আয়িশা (রা.) বলেন, 'রাসূলুল্লাহ ﷺ রামাদ্বানের শেষ দশকে ইবাদত-বন্দেগীর জন্য যে পরিমাণ সাধনা করতেন, অন্য কোনো সময়ে তা করতেন না।",
+            ref: "সহীহ মুসলিম, হাদীস: ১১৭৫",
+          },
+          dua: {
+            ar: "رَبِّ اغْfِرْ لِي وَتُبْ عَلَيَّ إِنَّكَ أَنْتَ التَّوَّابُ الرَّحِيمُ",
+            bn: "হে আমার প্রতিপালক! আমাকে ক্ষমা করুন, আমার তাওবা কবুল করুন। নিশ্চয় আপনি তাওবা কবুলকারী দয়ালু।",
+            ref: "সুনান আবু দাউদ, ১৫১৬; সুনান ইবনু মাজাহ, ৩৮১৪",
+          },
+          task: "আপনার বাড়ি, মসজিদ, রাস্তা কিংবা এতিমখানা পরিষ্কারের কাজে সশরীরে অংশগ্রহণ করুন।",
+          names: [
+            { ar: "الْكَرِيمُ", bn: "মহানুভব" },
+            { ar: "الْوَاحِدُ", bn: "এক ও অদ্বিতীয়" },
+            { ar: "الصَّمَدُ", bn: "অমুখাপেক্ষী, স্বয়ংসম্পূর্ণ" },
+          ],
+        },
+        // Day 22
+        {
+          day: 22,
+          ayat: {
+            ar: "وَالَّذِينَ جَاهَدُوا فِينَا لَنَهْدِيَنَّهُمْ سُبُلَنَا وَإِنَّ اللَّهَ لَمَعَ الْمُحْسِنِينَ",
+            bn: "যারা আমার পথে সাধনায় আত্মনিয়োগ করে, আমি অবশ্যই তাদেরকে আমার পথে পরিচালিত করব। নিশ্চয় আল্লাহ সৎকর্মপরায়ণদের সাথে আছেন।",
+            ref: " সূরা আনকাবুত, আয়াত: ৬৯",
+          },
+          hadith: {
+            bn: "যে ব্যক্তি ইলম অন্বেষণে কোনো পথ অবলম্বন করে, আল্লাহ তার জন্য জান্নাতের পথ সহজ করে দেন।",
+            ref: "তিরমিযী, হাদীস: ২৬৪৬",
+          },
+          dua: {
+            ar: "اللَّهُمَّ أَعِنِّي عَلَى ذِكْرِكَ، وَشُكْرِكَ، وَحُسْنِ عِبَادَتِكَ",
+            bn: "হে আল্লাহ! আপনার স্মরণে, আপনার কৃতজ্ঞতা প্রকাশে এবং আপনার উত্তম ইবাদতে আমাকে সাহায্য করুন।",
+            ref: "আবু দাউদ, হাদীস নম্বর ১৫২২",
+          },
+          task: "যারা আপনাকে কষ্ট দিয়েছে তাদেরকে আল্লাহর সন্তুষ্টির জন্য ক্ষমা করুন এবং সম্প্রীতি স্থাপন করুন।",
+          names: [
+            { ar: "الْقَابِضُ", bn: "সংকোচনকারী" },
+            { ar: "الْمُقْتَدِرُ", bn: "সর্বক্ষম" },
+            { ar: "الْمُقَدِّمُ", bn: "অগ্রসরকারী" },
+          ],
+        },
+        // Day 23
+        {
+          day: 23,
+          ayat: {
+            ar: "يَأَيُّهَا الَّذِينَ آمَنُوا لَا تَتَّخِذُوا الْكَافِرِينَ أَوْلِيَاءَ مِنْ دُونِ الْمُؤْمِنِينَ أَتُرِيدُونَ أَنْ تَجْعَلُوا لِلَّهِ عَلَيْكُمْ سُلْطَانًا مُبِينًا",
+            bn: "হে ঈমানদারগণ! তোমরা কাফেরদেরকে বন্ধু বানিও না মুসলমানদের বাদ দিয়ে। তোমরা কি এমনটি করে নিজের ওপর আল্লাহর প্রকাশ্য দলীল কায়েম করে দেবে?",
+            ref: " সূরা নিসা, আয়াত: ১৪৪",
+          },
+          hadith: {
+            bn: "যে ব্যক্তি কোন মুসলিমের দোষ-ত্রুটি গোপন রাখবে, আল্লাহ তা'আলা দুনিয়া ও আখিরাতে তার দোষ-ত্রুটি গোপন রাখবেন। বান্দা যতক্ষণ তার ভাইয়ের সহযোগিতায় আত্মনিয়োগ করে আল্লাহ ততক্ষণ তার সহযোগিতা করেন।",
+            ref: "সহীহ মুসলিম, হাদীস: ২৬৯৯",
+          },
+          dua: {
+            ar: "يَا مُقَلِّبَ الْقُلُوبِ ثَبِّتْ قَلْبِي عَلَى دِينِكَ",
+            bn: "হে হৃদয়ের পরিবর্তনকারী! আমার অন্তরকে আপনার দীনের ওপর স্থির রাখুন।",
+            ref: "তিরমিযী, হাদীস: ৩৫২২",
+          },
+          task: "আজ দিনভর ফেইসবুক-ইউটিউব থেকে দূরে থাকুন।",
+          names: [
+            { ar: "الْمُؤَخِّرُ", bn: "পশ্চাদপদকারী" },
+            { ar: "الْأَوَّلُ", bn: "সর্বপ্রথম, অনাদি" },
+            { ar: "الْآخِرُ", bn: "সর্বশেষ, অনন্ত" },
+          ],
+        },
+        // Day 24
+        {
+          day: 24,
+          ayat: {
+            ar: "قُلْ هَذِهِ سَبِيلِي أَدْعُو إِلَى اللَّهِ عَلَى بَصِيرَةٍ أَنَا وَمَنِ اتَّبَعَنِي وَسُبْحَانَ اللَّهِ وَمَا أَنَا مِنَ الْمُشْرِكِينَ",
+            bn: "বলে দিন, এই আমার পথ। আমি আল্লাহর দিকে সজ্ঞানে দাওয়াত দেই আমি এবং আমার অনুসারীরা। আল্লাহ পবিত্র। আমি মুশরিকদের অন্তর্ভুক্ত নই।",
+            ref: " সূরা ইউসুফ, আয়াত: ১০৮",
+          },
+          hadith: {
+            bn: "মীযানের পাল্লায় সচ্চরিত্রের চেয়ে অধিক ভারী আর কিছুই নেই।",
+            ref: "আবু দাউদ, হাদীস: ৪৭৯৯",
+          },
+          dua: {
+            ar: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ أَنْ أُشْرِكَ بِكَ وَأَنَا أَعْلَمُ ، وَأَسْتَغْfِرُكَ لِمَا لَا أَعْلَمُ",
+            bn: "হে আল্লাহ! আমি সজ্ঞানে আপনার সঙ্গে শিরক করা থেকে আপনার নিকট আশ্রয় চাই এবং যা আমার অজ্ঞাত তা থেকেও আপনার কাছে ক্ষমা চাই।",
+            ref: "আল-আদাবুল মুফরাদ, হাদীস: ৭১৬",
+          },
+          task: "অধীনস্তদের কাজের বোঝা কমিয়ে দিন, অথবা অতিরিক্ত পারিশ্রমিক দিন।",
+          names: [
+            { ar: "الظَّاهِرُ", bn: "প্রকাশ্য, সবার উপরে" },
+            { ar: "الْبَاطِنُ", bn: "গোপন, নিকটবর্তী" },
+            { ar: "الْعَلِيمُ", bn: "সর্বজ্ঞ, মহাজ্ঞানী" },
+          ],
+        },
+        // Day 25
+        {
+          day: 25,
+          ayat: {
+            ar: "وَالْعَصْرِ إِنَّ الْإِنْسَانَ لَفِي خُسْرٍ إِلَّا الَّذِينَ آمَنُوا وَعَمِلُوا الصَّالِحَاتِ وَتَوَاصَوْا بِالْحَقِّ وَتَوَاصَوْا بِالصَّبْرِ",
+            bn: "কসম যুগের, নিশ্চয় মানুষ ক্ষতিগ্রস্ত; কিন্তু তারা নয়, যারা বিশ্বাস স্থাপন করে ও সৎকর্ম করে এবং পরস্পরকে তাকীদ করে সত্যের এবং তাকীদ করে সবরের।",
+            ref: " সূরা আসর, আয়াত: ১-৩",
+          },
+          hadith: {
+            bn: "তুমি যেখানেই থাক আল্লাহ তা'আলা কে ভয় কর, মন্দকাজের পরপরই ভালো কাজ কর, তাতে মন্দ দূরিভূত হয়ে যাবে এবং মানুষের সঙ্গে উত্তম আচরণ কর।",
+            ref: "সুনান তিরমিযী, হাদীস: ১৯৮৭",
+          },
+          dua: {
+            ar: "اللَّهُمَّ بَاعِدْ بَيْنِي وَبَيْنَ خَطَايَايَ كَمَا بَاعَدْتَ بَيْنَ الْمَشْرِقِ وَالْمَغْرِبِ اللَّهُمَّ نَقِّنِي مِنَ الْخَطَايَا كَمَا يُنَقَّى الثَّوْبُ الْأَبْيَضُ مِنَ الدَّنَسِ اللَّهُمَّ اغْسِلْنِي مِنْ خَطَايَايَ بِالْمَاءِ وَالثَّلْجِ وَالْبَرَدِ",
+            bn: "হে আল্লাহ! আমার এবং আমার গুনাহের মধ্যে এরূপ ব্যবধান তৈরি করে দিন, যেরূপ ব্যবধান সৃষ্টি করেছেন পূর্ব এবং পশ্চিমের মধ্যে। ...",
+            ref: "সহীহ বুখারী, হাদীস: ৭৪৪",
+          },
+          task: "অনলাইন বা অফলাইনে বিতর্ক-বচসা পরিহার করুন।",
+          names: [
+            { ar: "الْمُتَعَالِي", bn: "সর্বোচ্চ" },
+            { ar: "الْبَرُّ", bn: "কৃপাময়" },
+            { ar: "التَّوَّابُ", bn: "তাওবা কুবলকারী" },
+          ],
+        },
+        // Day 26
+        {
+          day: 26,
+          ayat: {
+            ar: "وَأَطِيعُوا اللَّهَ وَرَسُولَهُ وَلَا تَنَازَعُوا فَتَفْشَلُوا وَتَذْهَبَ رِيحُكُمْ وَاصْبِرُوا إِنَّ اللَّهَ مَعَ الصَّابِرِينَ",
+            bn: "আর আল্লাহ তা'আলার নির্দেশ মান্য করো এবং তাঁর রাসূলের। তাছাড়া তোমরা পরস্পর বিবাদে লিপ্ত হয়ো না। যদি তা করো, তবে তোমরা সাহসহারা হয়ে পড়বে এবং তোমাদের প্রভাব চলে যাবে। ...",
+            ref: " সূরা আনফাল, আয়াত: ৪৬",
+          },
+          hadith: {
+            bn: "তোমরা পরস্পর উপহার বিনিময় করো, তাতে তোমাদের মধ্যে পারস্পরিক ভালোবাসা সৃষ্টি হবে।",
+            ref: "আল-আদাবুল মুফরাদ, হাদীস: ৫৯৪",
+          },
+          dua: {
+            ar: "رَبَّنَا اغْفِرْ لِي وَلِوَالِدَيَّ وَلِلْمُؤْمِنِينَ يَوْمَ يَقُومُ الْحِسَابُ",
+            bn: "হে আমার প্রতিপালক! যেদিন হিসাব হবে সেদিন আমাকে, আমার মাতা-পিতাকে এবং মুমিনদেরকে ক্ষমা করুন।",
+            ref: " সূরা ইবরাহীম, আয়াত: ৪১",
+          },
+          task: "আপনার খাবারের কিছু অংশ প্রতিবেশীর সাথে শেয়ার করুন।",
+          names: [
+            { ar: "الْمَلِيكُ", bn: "মহাঅধিপতি" },
+            { ar: "الْعَفُوُّ", bn: "পাপ মোচনকারী" },
+            { ar: "الرَّءُوفُ", bn: "অতি দয়ার্দ্র" },
+          ],
+        },
+        // Day 27
+        {
+          day: 27,
+          ayat: {
+            ar: "أَفَتُؤْمِنُونَ بِبَعْضِ الْكِتَابِ وَتَكْفُرُونَ بِبَعْضٍ فَمَا جَزَاءُ مَنْ يَفْعَلُ ذَلِكَ مِنْكُمْ إِلَّا خِزْيٌ فِي الْحَيَاةِ الدُّنْيَا وَيَوْمَ الْقِيَامَةِ يُرَدُّونَ إِلَى أَشَدِّ الْعَذَابِ",
+            bn: "তবে কি তোমরা গ্রন্থের কিয়দংশ বিশ্বাস করো এবং কিয়দংশ অবিশ্বাস করো! যারা এরূপ করে, পার্থিব জীবনে দুগর্তি ছাড়া তাদের আর কোনোই পথ নেই। ...",
+            ref: " সূরা বাকারা, আয়াত: ৮৫",
+          },
+          hadith: {
+            bn: "আল্লাহর সন্তুষ্টি অর্জনের জন্যে বান্দার ক্রোধ সংবরণে যে বিশাল প্রতিদান রয়েছে, তা অন্য কিছু সংবরণে নেই।",
+            ref: "ইবনু মাজাহ, হাদীস: ৪১৮৯",
+          },
+          dua: {
+            ar: "أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّاتِ مِنْ شَرِّ مَا خَلَقَ",
+            bn: "আমি আল্লাহর পূর্ণাঙ্গ কালিমাসমূহ দ্বারা তাঁর সৃষ্টির অনিষ্ট থেকে আশ্রয় প্রার্থনা করছি।",
+            ref: "আবু দাউদ, ৩৮৯৮; তিরমিযী, ৩৪৩৭",
+          },
+          task: "যে মজলিসে পরচর্চা হয়, সে মজলিস পরিত্যাগ করুন।",
+          names: [
+            { ar: "الْمَالِكُ", bn: "প্রকৃত মালিক" },
+            { ar: "الْأَكْرَمُ", bn: "অতি সম্মানিত" },
+            { ar: "الْمُعْطِي", bn: "দানকারী" },
+          ],
+        },
+        // Day 28
+        {
+          day: 28,
+          ayat: {
+            ar: "وَمَا أَرْسَلْنَاكَ إِلَّا كَافَّةً لِلنَّاسِ بَشِيرًا وَنَذِيرًا وَلَكِنَّ أَكْثَرَ النَّاسِ لَا يَعْلَمُونَ",
+            bn: "আমি আপনাকে সমগ্র মানবজাতির জন্যে সুসংবাদদাতা ও সতর্ককারীরূপে পাঠিয়েছি, কিন্তু অধিকাংশ মানুষ তা জানে না।",
+            ref: " সূরা সাবা, আয়াত: ২৮",
+          },
+          hadith: {
+            bn: "আল্লাহর কাছে সেই আমল সবচেয়ে প্রিয়, যা কম হলেও নিয়মিত করা হয়।",
+            ref: "সহীহ মুসলিম, হাদীস: ৭৮৩",
+          },
+          dua: {
+            ar: "اللَّهُمَّ آتِ نَفْسِي تَقْوَاهَا، وَزَكِّهَا أَنْتَ خَيْرُ مَنْ زَكَّاهَا ، أَنْتَ وَلِيُّهَا وَمَوْلَاهَا",
+            bn: "হে আল্লাহ! আপনি আমার অন্তরকে তাকওয়া দান করুন এবং একে পরিশুদ্ধ করুন। আপনিই এর উত্তম পরিশুদ্ধকারী এবং আপনিই অন্তরের অভিভাবক ও মালিক।",
+            ref: "সহীহ মুসলিম, হাদীস ২৭২২",
+          },
+          task: "জীবনে অন্তত একবার আপনি যাদের অনুগ্রহপ্রাপ্ত হয়েছেন, তাদের জন্য দু'আ করুন।",
+          names: [
+            { ar: "الرَّفِيقُ", bn: "মহান বন্ধু, দয়ালু" },
+            { ar: "الْغَنِيُّ", bn: "অভাবমুক্ত" },
+            { ar: "الرَّقِيبُ", bn: "তীক্ষ্ম পর্যবেক্ষক" },
+          ],
+        },
+        // Day 29
+        {
+          day: 29,
+          ayat: {
+            ar: "وَإِنْ تُطِعْ أَكْثَرَ مَنْ فِي الْأَرْضِ يُضِلُّوكَ عَنْ سَبِيلِ اللَّهِ",
+            bn: "আর যদি আপনি পৃথিবীর অধিকাংশ লোকের কথা মেনে নেন, তবে তারা আপনাকে আল্লাহর পথ থেকে বিপথগামী করে দেবে।",
+            ref: " সূরা আন'আম, আয়াত: ১১৬",
+          },
+          hadith: {
+            bn: "যে ব্যক্তি তার জীবিকা প্রশস্ত করতে চায় এবং আয়ু বৃদ্ধি করতে চায়, সে যেন আত্মীয়তার সম্পর্ক রক্ষা করে।",
+            ref: "সহীহ বুখারী, হাদীস: ৫৯৮৫",
+          },
+          dua: {
+            ar: "يَا حَيُّ يَا قَيُّومُ بِرَحْمَتِكَ أَسْتَغِيثُ",
+            bn: "হে চিরঞ্জীব, হে চিরস্থায়ী! আমি তোমার রহমতের উসিলায় সাহায্য প্রার্থনা করছি।",
+            ref: "তিরমিযী, হাদীস: ৩৫২৪",
+          },
+          task: "একজন বয়োজ্যেষ্ঠ বা কোনো রোগীকে দেখতে যান।",
+          names: [
+            { ar: "الْمُجِيبُ", bn: "সাড়াদানকারী" },
+            { ar: "الْجَوَادُ", bn: "উদার দানশীল" },
+            { ar: "الْفَتَّاحُ", bn: "বিজয়দানকারী, প্রারম্ভকারী" },
+          ],
+        },
+        // Day 30
+        {
+          day: 30,
+          ayat: {
+            ar: "رَبِّ اجْعَلْ هَذَا الْبَلَدَ آمِنًا وَاجْنُبْنِي وَبَنِيَّ أَنْ نَعْبُدَ الْأَصْنَامَ",
+            bn: "'হে আমার রব, আপনি এ শহরকে নিরাপদ করে দিন এবং আমাকে ও আমার সন্তানদেরকে মূর্তি পূজা থেকে দূরে রাখুন'。",
+            ref: "সুরা ইবরাহীম, আয়াত: ৩৫",
+          },
+          hadith: {
+            bn: "রামাদ্বান মাসের সিয়াম পালন করার পরে শাওয়াল মাসে ছয়দিন সিয়াম পালন করা সারা বছর সিয়াম পালন করার সমতুল্য।",
+            ref: "সহীহ মুসলিম, হাদীস: ১১৬৪",
+          },
+          dua: {
+            ar: "اللَّهُمَّ إِنِّي أَسْأَلُكَ الْجَنَّةَ وَأَعُوذُ بِكَ مِنَ النَّارِ",
+            bn: "হে আল্লাহ! আমি আপনার কাছে জান্নাত চাই এবং জাহান্নাম থেকে আশ্রয় প্রার্থনা করছি।",
+            ref: "আবু দাউদ, হাদীস: ৭৯২",
+          },
+          task: "রাস্তাঘাট এবং পাবলিক প্লেসে টিস্যু এবং কোনো কিছুর খোসা ইত্যাদি ফেলা থেকে বিরত থাকুন।",
+          names: [
+            {
+              ar: "بَدِيعُ السَّمَوَاتِ وَالْأَرْضِ",
+              bn: "আসমানসমূহ ও জমিনের উদ্ভাবক",
+            },
+            { ar: "الْأَعْلَى", bn: "সর্বোচ্চ, মহান" },
+            { ar: "الْمَنَّانُ", bn: "পরম অনুগ্রহশীল" },
+          ],
+        },
+      ];
+
+      // --- Global Variables ---
+      const mainTabs = document.querySelectorAll(".main-tab");
+      const mainContentSections = document.querySelectorAll(".main-content");
+      const dayNavContainer = document.querySelector("#planner .no-scrollbar");
+      const dayContentContainer = document.getElementById(
+        "day-content-container"
+      );
+
+      // Modal Elements
+      const locationModal = document.getElementById("location-modal");
+      const locationModalClose = document.getElementById(
+        "location-modal-close"
+      );
+      const autoLocationBtn = document.getElementById("auto-location-btn");
+      const autoLocationSpinner = document.getElementById(
+        "auto-location-spinner"
+      );
+      const countrySelect = document.getElementById("country-select");
+      const citySelect = document.getElementById("city-select");
+      const locationSaveBtn = document.getElementById("location-save-btn");
+      const locationModalError = document.getElementById(
+        "location-modal-error"
+      );
+
+      const settingsModal = document.getElementById("settings-modal");
+      const settingsBtn = document.getElementById("settings-btn");
+      const settingsModalClose = document.getElementById(
+        "settings-modal-close"
+      );
+      const settingsCancelBtn = document.getElementById("settings-cancel-btn");
+      const settingsSaveBtn = document.getElementById("settings-save-btn");
+      const asrMethodSelect = document.getElementById("asr-method-select");
+
+      const disclaimerModal = document.getElementById("disclaimer-modal");
+      const disclaimerBtn = document.getElementById("disclaimer-btn");
+      const disclaimerModalClose = document.getElementById(
+        "disclaimer-modal-close"
+      );
+      const disclaimerOkBtn = document.getElementById("disclaimer-ok-btn");
+
+      const changeLocationBtn = document.getElementById("change-location-btn");
+
+      let allCountries = [];
+      let allCities = [];
+      const hijriMonthsBengali = [
+        "মহররম",
+        "সফর",
+        "রবিউল আউয়াল",
+        "রবিউস সানি",
+        "জমাদিউল আউয়াল",
+        "জমাদিউস সানি",
+        "রজব",
+        "শাবান",
+        "রমজান",
+        "শাওয়াল",
+        "জিলকদ",
+        "জিলহজ",
+      ];
+      let prayerTimesData = null; // Global variable to store prayer times
+
+      // --- Core Functions ---
+
+      function getStorage(key) {
+        try {
+          const data = localStorage.getItem(key);
+          return data ? JSON.parse(data) : null;
+        } catch (e) {
+          console.error("LocalStorage read error:", e);
+          return null;
+        }
+      }
+
+      function setStorage(key, value) {
+        try {
+          localStorage.setItem(key, JSON.stringify(value));
+        } catch (e) {
+          console.error("LocalStorage write error:", e);
+        }
+      }
+
+      function setGregorianDate(gregorianData) {
+        const gregDateEl = document.getElementById("prayer-gregorian-date");
+        if (gregorianData && gregorianData.date) {
+          const [day, month, year] = gregorianData.date.split("-");
+          const gDate = new Date(`${year}-${month}-${day}T00:00:00`);
+          gregDateEl.innerText =
+            gDate.toLocaleDateString("bn-BD", {
+              weekday: "long",
+              day: "numeric",
+              month: "long",
+              year: "numeric",
+            }) + " ( ইংরেজি )";
+        } else {
+          const today = new Date();
+          gregDateEl.innerText =
+            today.toLocaleDateString("bn-BD", {
+              weekday: "long",
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            }) + " ( ইংরেজি )";
+        }
+      }
+
+      function setHijriDate(hijriData) {
+        const hijriDateEl = document.getElementById("prayer-hijri-date");
+        try {
+          if (hijriData && hijriData.date) {
+            const dateParts = hijriData.date.split("-"); // ["18", "05", "1447"]
+            const day = parseInt(dateParts[0], 10);
+            const monthNumber = parseInt(hijriData.month.number, 10);
+            const year = parseInt(hijriData.year, 10);
+            const monthName = hijriMonthsBengali[monthNumber - 1];
+
+            const bengaliDay = day.toLocaleString("bn-BD");
+            const bengaliYear = year.toLocaleString("bn-BD");
+
+            hijriDateEl.innerText = `${bengaliDay} ${monthName}, ${bengaliYear} হিজরি`;
+          } else {
+            hijriDateEl.innerText = "হিজরি তারিখ পাওয়া যায়নি";
+          }
+        } catch (e) {
+          console.error("Error formatting Hijri date:", e);
+          hijriDateEl.innerText = "হিজরি তারিখ পাওয়া যায়নি";
+        }
+      }
+
+      function displayPrayerTimes(timings) {
+        const gridEl = document.getElementById("prayer-times-grid");
+        gridEl.innerHTML = "";
+
+        if (!timings || !timings.Fajr) {
+          console.error("Invalid timings object received:", timings);
+          gridEl.innerHTML =
+            '<p class="text-red-600 text-center col-span-full">দুঃখিত, নামাজের সময় গণনা করা যায়নি। অনুগ্রহ করে লোকেশন সেটিংস পরীক্ষা করুন।</p>';
+          return;
+        }
+
+        const prayerIcons = {
+          Sahari: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 inline-block mr-2"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>`,
+          Fajr: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 inline-block mr-2"><path d="M12 2v8"/><path d="m4.93 10.93 1.41 1.41"/><path d="M2 18h2"/><path d="M20 18h2"/><path d="m19.07 10.93-1.41 1.41"/><path d="M22 22H2"/><path d="m8 6 4-4 4 4"/><path d="M16 18a4 4 0 0 0-8 0"/></svg>`,
+          Dhuhr: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 inline-block mr-2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m4.93 19.07 1.41-1.41"/><path d="m17.66 6.34 1.41-1.41"/></svg>`,
+          Asr: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 inline-block mr-2"><path d="M12 10V2"/><path d="m4.93 10.93 1.41-1.41"/><path d="M2 18h2"/><path d="M20 18h2"/><path d="m19.07 10.93-1.41-1.41"/><path d="M22 22H2"/><path d="m16 6-4 4-4-4"/><path d="M16 18a4 4 0 0 1-8 0"/></svg>`,
+          Maghrib: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 inline-block mr-2"><path d="M12 10V2"/><path d="m4.93 10.93 1.41-1.41"/><path d="M2 18h2"/><path d="M20 18h2"/><path d="m19.07 10.93-1.41-1.41"/><path d="M22 22H2"/><path d="m16 6-4 4-4-4"/><path d="M16 18a4 4 0 0 1-8 0"/></svg>`,
+          Isha: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 inline-block mr-2"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/><path d="M19 3v4h-4"/></svg>`,
+        };
+
+        // Helper to parse time string "HH:MM" into a Date object for calculations
+        const parseTime = (timeStr) => {
+          const [h, m] = timeStr.split(":").map(Number);
+          const d = new Date();
+          d.setHours(h, m, 0, 0);
+          return d;
+        };
+
+        // Helper to format time for display in Bengali (12-hour format)
+        const formatTimeDisplay = (timeStr) => {
+          if (!timeStr) return "...";
+          const [hour, minute] = timeStr.split(":");
+          const date = new Date();
+          date.setHours(parseInt(hour, 10));
+          date.setMinutes(parseInt(minute, 10));
+
+          return date
+            .toLocaleTimeString("bn-BD", {
+              hour: "numeric",
+              minute: "2-digit",
+              hour12: true,
+            })
+            .replace("AM", " AM")
+            .replace("PM", " PM");
+        };
+
+        const fajrTime = parseTime(timings.Fajr);
+
+        // Calculate Sahari time (10 mins before Fajr)
+        const sahariTime = new Date(fajrTime.getTime() - 10 * 60 * 1000);
+
+        const prayerTimes = {
+          Sahari: sahariTime.toTimeString().slice(0, 5),
+          Fajr: timings.Fajr,
+          Dhuhr: timings.Dhuhr,
+          Asr: timings.Asr,
+          Maghrib: timings.Maghrib,
+          Isha: timings.Isha,
+        };
+
+        const prayerLabels = {
+          Sahari: "সাহরী",
+          Fajr: "ফজর",
+          Dhuhr: "যোহর",
+          Asr: "আসর",
+          Maghrib: "মাগরিব (ইফতার)",
+          Isha: "ইশা",
+        };
+        const displayOrder = [
+          "Sahari",
+          "Fajr",
+          "Dhuhr",
+          "Asr",
+          "Maghrib",
+          "Isha",
+        ];
+
+        displayOrder.forEach((key) => {
+          const time = prayerTimes[key];
+          if (time) {
+            const timeEl = document.createElement("div");
+            timeEl.className = "bg-green-800/10 p-2 rounded-lg";
+
+            const prayerNameHTML = `<p class="font-semibold text-green-900 text-xs sm:text-sm">${
+              prayerIcons[key] || ""
+            } ${prayerLabels[key]}</p>`;
+
+            timeEl.innerHTML = `
+                        ${prayerNameHTML}
+                        <p class="text-base sm:text-lg font-bold text-green-900">${formatTimeDisplay(
+                          time
+                        )}</p>
+                    `;
+            gridEl.appendChild(timeEl);
+          }
+        });
+      }
+
+      function updateNextPrayerCountdown() {
+        if (!prayerTimesData) return;
+
+        const now = new Date();
+        const countdownEl = document.getElementById("next-prayer-countdown");
+
+        const prayerOrder = [
+          "Fajr",
+          "Sunrise",
+          "Dhuhr",
+          "Asr",
+          "Maghrib",
+          "Isha",
+        ];
+        let nextPrayer = null;
+        let nextPrayerTime = null;
+
+        for (const prayerName of prayerOrder) {
+          const prayerTimeStr = prayerTimesData[prayerName];
+          if (!prayerTimeStr) continue;
+
+          const [h, m] = prayerTimeStr.split(":").map(Number);
+          const prayerTime = new Date();
+          prayerTime.setHours(h, m, 0, 0);
+
+          if (prayerTime > now) {
+            nextPrayer = prayerName;
+            nextPrayerTime = prayerTime;
+            break;
+          }
+        }
+
+        // If all prayers for today are done, next prayer is Fajr of tomorrow
+        if (!nextPrayer) {
+          const fajrTimeStr = prayerTimesData["Fajr"];
+          if (!fajrTimeStr) {
+            countdownEl.innerText = "";
+            return;
+          }
+          const [h, m] = fajrTimeStr.split(":").map(Number);
+          nextPrayer = "Fajr";
+          nextPrayerTime = new Date();
+          nextPrayerTime.setDate(nextPrayerTime.getDate() + 1);
+          nextPrayerTime.setHours(h, m, 0, 0);
+        }
+
+        const diffMs = nextPrayerTime - now;
+        const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+        const diffMins = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+
+        const prayerLabels = {
+          Fajr: "ফজর",
+          Sunrise: "সূর্যোদয়",
+          Dhuhr: "যোহর",
+          Asr: "আসর",
+          Maghrib: "মাগরিব",
+          Isha: "ইশা",
+        };
+        const nextPrayerNameBengali = prayerLabels[nextPrayer] || nextPrayer;
+
+        countdownEl.innerText = `পরবর্তী সালাত: ${nextPrayerNameBengali} আর ${diffHours} ঘন্টা ${diffMins} মিনিট বাকি`;
+      }
+
+      async function updatePrayerTimes() {
+        let location = getStorage("userLocation");
+
+        if (
+          !location ||
+          typeof location.lat === "undefined" ||
+          typeof location.lon === "undefined"
+        ) {
+          // Set default location to Dhaka, Bangladesh
+          location = {
+            lat: 23.777176,
+            lon: 90.399452,
+            name: "ঢাকা, বাংলাদেশ",
+          };
+          setStorage("userLocation", location);
+          // Do not show the modal, just use the default
+        }
+
+        document.getElementById("prayer-location-display").innerText =
+          location.name;
+        const school = 1; // Force Hanafi Asr time
+        const method = 5; // University of Islamic Sciences, Karachi
+
+        try {
+          const response = await fetch(
+            `https://api.aladhan.com/v1/timings?latitude=${location.lat}&longitude=${location.lon}&method=${method}&school=${school}`
+          );
+          if (!response.ok)
+            throw new Error(
+              `API request failed with status ${response.status}`
+            );
+
+          const result = await response.json();
+
+          if (result.code === 200 && result.data) {
+            prayerTimesData = result.data.timings; // Store timings globally
+            displayPrayerTimes(prayerTimesData);
+            setHijriDate(result.data.date.hijri);
+            setGregorianDate(result.data.date.gregorian);
+            updateNextPrayerCountdown(); // Initial call
+          } else {
+            throw new Error("Invalid data from prayer time API");
+          }
+        } catch (error) {
+          console.error("Error fetching prayer times:", error);
+          const gridEl = document.getElementById("prayer-times-grid");
+          gridEl.innerHTML =
+            '<p class="text-red-600 text-center col-span-full">দুঃখিত, ইন্টারনেট সংযোগ বা এপিআই সমস্যার কারণে নামাজের সময় আনা যায়নি।</p>';
+        }
+      }
+
+      // --- Location Modal Functions ---
+
+      async function initLocationModal() {
+        try {
+          const response = await fetch(
+            "https://api.muslimbangla.com/countries"
+          );
+          if (!response.ok) throw new Error("Failed to fetch countries");
+
+          const responseData = await response.json();
+          allCountries = responseData.data;
+
+          if (!Array.isArray(allCountries))
+            throw new Error("Country data could not be loaded.");
+
+          countrySelect.innerHTML =
+            '<option value="">দেশ নির্বাচন করুন</option>';
+          allCountries.forEach((country) => {
+            const option = document.createElement("option");
+            option.value = country.country_code;
+            option.innerText = country.country_name;
+            countrySelect.appendChild(option);
+          });
+        } catch (error) {
+          console.error("Country fetch error:", error);
+          countrySelect.innerHTML =
+            '<option value="">দেশ লোড করা যায়নি</option>';
+        }
+      }
+
+      async function handleCountryChange() {
+        const countryCode = countrySelect.value;
+        if (!countryCode) {
+          citySelect.innerHTML =
+            '<option value="">আগে দেশ নির্বাচন করুন</option>';
+          citySelect.disabled = true;
+          return;
+        }
+
+        citySelect.innerHTML = '<option value="">শহর লোড হচ্ছে...</option>';
+        citySelect.disabled = false;
+
+        try {
+          const response = await fetch(
+            `https://api.muslimbangla.com/cities/${countryCode}`
+          );
+          if (!response.ok) throw new Error("Failed to fetch cities");
+
+          const responseData = await response.json();
+          allCities = Array.isArray(responseData)
+            ? responseData
+            : responseData.data;
+
+          if (!Array.isArray(allCities))
+            throw new Error("City data could not be loaded.");
+
+          citySelect.innerHTML = '<option value="">শহর নির্বাচন করুন</option>';
+          allCities.forEach((city) => {
+            const option = document.createElement("option");
+            option.value = city.id;
+            option.innerText =
+              city.place_name || city.place_name_eng || "Unknown City";
+            option.dataset.lat = city.lat;
+            option.dataset.lon = city.lng;
+            citySelect.appendChild(option);
+          });
+        } catch (error) {
+          console.error("City fetch error:", error);
+          citySelect.innerHTML = '<option value="">শহর লোড করা যায়নি</option>';
+        }
+      }
+
+      function handleCityChange() {
+        if (citySelect.value) locationSaveBtn.disabled = false;
+        else locationSaveBtn.disabled = true;
+      }
+
+      function saveManualLocation() {
+        const selectedCityOption = citySelect.options[citySelect.selectedIndex];
+        if (!selectedCityOption || !selectedCityOption.value) return;
+
+        const selectedCountryOption =
+          countrySelect.options[countrySelect.selectedIndex];
+
+        const location = {
+          lat: selectedCityOption.dataset.lat,
+          lon: selectedCityOption.dataset.lon,
+          name: `${selectedCityOption.innerText}, ${selectedCountryOption.innerText}`,
+        };
+
+        setStorage("userLocation", location);
+        updatePrayerTimes();
+        locationModal.classList.remove("show");
+      }
+
+      function getAutoLocation() {
+        if (!("geolocation" in navigator)) {
+          locationModalError.innerText =
+            "আপনার ব্রাউজার অটোমেটিক লোকেশন সাপোর্ট করে না।";
+          return;
+        }
+
+        autoLocationBtn.disabled = true;
+        autoLocationSpinner.classList.remove("hidden");
+        locationModalError.innerText = "";
+
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const { latitude, longitude } = position.coords;
+            const location = {
+              lat: latitude,
+              lon: longitude,
+              name: "আপনার বর্তমান স্থান",
+            };
+            setStorage("userLocation", location);
+            updatePrayerTimes();
+            locationModal.classList.remove("show");
+            autoLocationBtn.disabled = false;
+            autoLocationSpinner.classList.add("hidden");
+          },
+          (error) => {
+            let errorMsg = "অটোমেটিক লোকেশন অ্যাক্সেস করা যায়নি।";
+            if (error.code === 1)
+              errorMsg = "আপনি লোকেশন অনুমতি দেননি। ম্যানুয়ালি সিলেক্ট করুন।";
+            locationModalError.innerText = errorMsg;
+            autoLocationBtn.disabled = false;
+            autoLocationSpinner.classList.add("hidden");
+          },
+          { timeout: 10000, enableHighAccuracy: false }
+        );
+      }
+
+      // --- Settings Modal Functions ---
+      function openSettingsModal() {
+        const settings = getStorage("prayerSettings") || { asrMethod: "h" };
+        asrMethodSelect.value = settings.asrMethod;
+        settingsModal.classList.add("show");
+      }
+
+      function closeSettingsModal() {
+        settingsModal.classList.remove("show");
+      }
+
+      function saveSettings() {
+        const newSettings = { asrMethod: asrMethodSelect.value };
+        setStorage("prayerSettings", newSettings);
+        updatePrayerTimes();
+        closeSettingsModal();
+      }
+
+      // --- Planner Generation & Tab Logic (unchanged) ---
+      function createDailyChecklist(dayNum) {
+        const items = [
+          "সকালের যিক্র",
+          "সন্ধ্যার যিক্র",
+          "দান-সাদাকা",
+          "দিনের কাজ",
+          "কমপক্ষে ৭০ বার ইস্তেগফার",
+          "কুরআন তিলাওয়াত ও তাদাব্বুর",
+          "ঘুমের পূর্বের যিক্র",
+          "দিনের দু'আ মুখস্থ",
+          "আল্লাহর নাম মুখস্থ",
+          "জামাআতে সালাত আদায়",
+          "নতুন কিছু শেখা",
+          "দিনের হাদীস",
+        ];
+        return items
+          .map(
+            (item) =>
+              `<label class="flex items-center space-x-3 p-2 rounded-md hover:bg-gray-100"><input type="checkbox" class="form-checkbox daily-checklist-item" data-day="${dayNum}" onchange="saveDayData(${dayNum})"><span class="text-gray-800">${item}</span></label>`
+          )
+          .join("");
+      }
+      function createSalatTracker(dayNum) {
+        const prayers = [
+          { name: "ফজর", fard: 2, sunnat: 2 },
+          { name: "যুত্র", fard: 4, sunnat: 6 },
+          { name: "আসর", fard: 4, sunnat: 4 },
+          { name: "মাগরিব", fard: 3, sunnat: 2 },
+          { name: "ইশা", fard: 4, sunnat: 2 },
+          { name: "তারাবীহ", fard: 0, sunnat: 20 },
+          { name: "দুহা", fard: 0, sunnat: 0 },
+          { name: "তাহিয়্যাতুল ওদু", fard: 0, sunnat: 0 },
+        ];
+        const header = `<div class="grid grid-cols-3 gap-2 font-semibold text-center text-green-800"><div>সালাত</div><div>ফরয</div><div>সুন্নত</div></div>`;
+        const rows = prayers
+          .map(
+            (prayer) =>
+              `<div class="grid grid-cols-3 gap-2 items-center text-center p-2 rounded-md hover:bg-gray-50"><div class="text-left font-medium text-gray-800">${
+                prayer.name
+              }</div><div>${
+                prayer.fard > 0
+                  ? `<input type="checkbox" class="form-checkbox salat-tracker-item" data-day="${dayNum}" onchange="saveDayData(${dayNum})">`
+                  : "—"
+              }</div><div>${
+                prayer.sunnat > 0 ||
+                prayer.name === "দুহা" ||
+                prayer.name === "তাহিয়্যাতুল ওদু"
+                  ? `<input type="checkbox" class="form-checkbox salat-tracker-item" data-day="${dayNum}" onchange="saveDayData(${dayNum})">`
+                  : "—"
+              }</div></div>`
+          )
+          .join("");
+        return header + rows;
+      }
+      function createDayContent(dayData) {
+        const data = dayData || {};
+        const dayNum = data.day || "...";
+        const ayat = data.ayat || { ar: "...", bn: "...", ref: "..." };
+        const hadith = data.hadith || { bn: "...", ref: "..." };
+        const dua = data.dua || { ar: "...", bn: "...", ref: "..." };
+        const task = data.task || "...";
+        const names = data.names || [
+          { ar: "...", bn: "..." },
+          { ar: "...", bn: "..." },
+          { ar: "...", bn: "..." },
+        ];
+        return `<div id="day-${dayNum}" class="day-content space-y-6"><h3 class="text-3xl font-bold text-center text-green-800 p-4 bg-white rounded-lg shadow-md">${dayNum} রামাদ্বান</h3><div class="grid grid-cols-1 lg:grid-cols-3 gap-6"><div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-orange-500 space-y-3"><h4 class="text-xl font-bold text-green-800 mb-2">দিনের আয়াত</h4><h5 class="font-semibold text-gray-500 text-sm">আরবি</h5><p class="text-3xl sm:text-4xl text-right font-semibold text-gray-800 leading-relaxed" style="direction: rtl;">${
+          ayat.ar
+        }</p><hr><h5 class="font-semibold text-gray-500 text-sm">বাংলা</h5><p class="text-gray-700 leading-relaxed">${
+          ayat.bn
+        }</p><p class="text-sm text-gray-500 mt-1 font-medium">${
+          ayat.ref
+        }</p></div><div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-orange-500 space-y-3"><h4 class="text-xl font-bold text-green-800 mb-2">দিনের হাদীস</h4><h5 class="font-semibold text-gray-500 text-sm">বাংলা</h5><p class="text-gray-700 leading-relaxed">${
+          hadith.bn
+        }</p><p class="text-sm text-gray-500 mt-1 font-medium">${
+          hadith.ref
+        }</p></div><div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-orange-500 space-y-3"><h4 class="text-xl font-bold text-green-800 mb-2">দিনের দু'আ</h4><h5 class="font-semibold text-gray-500 text-sm">আরবি</h5><p class="text-3xl sm:text-4xl text-right font-semibold text-gray-800 leading-relaxed" style="direction: rtl;">${
+          dua.ar
+        }</p><hr><h5 class="font-semibold text-gray-500 text-sm">বাংলা</h5><p class="text-gray-700 leading-relaxed">${
+          dua.bn
+        }</p><p class="text-sm text-gray-500 mt-1 font-medium">${
+          dua.ref
+        }</p></div></div><div class="grid grid-cols-1 md:grid-cols-2 gap-6"><div class="bg-white p-6 rounded-lg shadow-md"><h4 class="text-xl font-bold text-green-800 mb-3">দিনের কাজ</h4><p class="text-lg text-gray-700">${task}</p></div><div class="bg-white p-6 rounded-lg shadow-md"><h4 class="text-xl font-bold text-green-800 mb-3">আজকের বিশেষ অর্জন</h4><textarea class="w-full h-24 p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 focus:outline-none achievement-textarea" data-day="${dayNum}" oninput="saveDayData(${dayNum})" placeholder="এমন একটা বিশেষ কাজের কথা লিখুন যা করতে পেরে আপনি পরিতৃপ্ত..."></textarea></div></div><div class="grid grid-cols-1 lg:grid-cols-3 gap-6"><div class="bg-white p-6 rounded-lg shadow-md"><h4 class="text-xl font-bold text-green-800 mb-4">সালাত ট্র্যাকার</h4><div class="space-y-2">${createSalatTracker(
+          dayNum
+        )}</div></div><div class="bg-white p-6 rounded-lg shadow-md"><h4 class="text-xl font-bold text-green-800 mb-4">দৈনিক চেকলিস্ট</h4><div class="space-y-1">${createDailyChecklist(
+          dayNum
+        )}</div></div><div class="space-y-6"><div class="bg-white p-6 rounded-lg shadow-md"><h4 class="text-xl font-bold text-green-800 mb-4">কুরআন ট্র্যাকার</h4><div class="space-y-3"><div class="flex items-center space-x-2"><label class="w-16 text-gray-700 font-medium">আয়াত</label><input type="number" class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 focus:outline-none quran-ayat" data-day="${dayNum}" oninput="saveDayData(${dayNum})" placeholder="কত আয়াত..."></div><div class="flex items-center space-x-2"><label class="w-16 text-gray-700 font-medium">পৃষ্ঠা</label><input type="number" class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 focus:outline-none quran-page" data-day="${dayNum}" oninput="saveDayData(${dayNum})" placeholder="কত পৃষ্ঠা..."></div><div class="flex items-center space-x-2"><label class="w-16 text-gray-700 font-medium">পারা</label><input type="number" class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 focus:outline-none quran-para" data-day="${dayNum}" oninput="saveDayData(${dayNum})" placeholder="কত পারা..."></div></div></div><div class="bg-white p-6 rounded-lg shadow-md"><h4 class="text-xl font-bold text-green-800 mb-4">আল্লাহর নাম মুখস্থ</h4><div class="grid grid-cols-3 gap-2 text-center">${names
+          .map(
+            (name) =>
+              `<div class="p-2 bg-green-50 rounded-md flex flex-col justify-start"><p class="text-2xl font-semibold text-green-900" style="direction: rtl;">${name.ar}</p><p class="text-sm text-gray-700 mt-1">${name.bn}</p></div>`
+          )
+          .join("")}</div></div></div></div></div>`;
+      }
+      function saveDayData(dayNum) {
+        const dayId = `day-${dayNum}`;
+        const dayContainer = document.getElementById(dayId);
+        if (!dayContainer) return;
+        const checklistInputs = dayContainer.querySelectorAll(
+          ".daily-checklist-item"
+        );
+        const salatInputs = dayContainer.querySelectorAll(
+          ".salat-tracker-item"
+        );
+        const achievementInput = dayContainer.querySelector(
+          ".achievement-textarea"
+        );
+        const quranAyatInput = dayContainer.querySelector(".quran-ayat");
+        const quranPageInput = dayContainer.querySelector(".quran-page");
+        const quranParaInput = dayContainer.querySelector(".quran-para");
+        const data = {
+          checklist: Array.from(checklistInputs).map((input) => input.checked),
+          salat: Array.from(salatInputs).map((input) => input.checked),
+          achievement: achievementInput ? achievementInput.value : "",
+          quran: {
+            ayat: quranAyatInput ? quranAyatInput.value : "",
+            page: quranPageInput ? quranPageInput.value : "",
+            para: quranParaInput ? quranParaInput.value : "",
+          },
+        };
+        let plannerSave = getStorage("ramadanPlannerData") || {};
+        plannerSave[dayId] = data;
+        setStorage("ramadanPlannerData", plannerSave);
+      }
+      function loadDayData(dayNum) {
+        const dayId = `day-${dayNum}`;
+        const dayContainer = document.getElementById(dayId);
+        if (!dayContainer) return;
+        const plannerSave = getStorage("ramadanPlannerData") || {};
+        const data = plannerSave[dayId];
+        if (!data) return;
+        const checklistInputs = dayContainer.querySelectorAll(
+          ".daily-checklist-item"
+        );
+        if (data.checklist) {
+          checklistInputs.forEach((input, index) => {
+            input.checked = data.checklist[index] || false;
+          });
+        }
+        const salatInputs = dayContainer.querySelectorAll(
+          ".salat-tracker-item"
+        );
+        if (data.salat) {
+          salatInputs.forEach((input, index) => {
+            input.checked = data.salat[index] || false;
+          });
+        }
+        const achievementInput = dayContainer.querySelector(
+          ".achievement-textarea"
+        );
+        if (data.achievement && achievementInput) {
+          achievementInput.value = data.achievement;
+        }
+        const quranAyatInput = dayContainer.querySelector(".quran-ayat");
+        const quranPageInput = dayContainer.querySelector(".quran-page");
+        const quranParaInput = dayContainer.querySelector(".quran-para");
+        if (data.quran) {
+          if (quranAyatInput) quranAyatInput.value = data.quran.ayat || "";
+          if (quranPageInput) quranPageInput.value = data.quran.page || "";
+          if (quranParaInput) quranParaInput.value = data.quran.para || "";
+        }
+      }
+      function showMainTab(tabId) {
+        mainTabs.forEach((tab) => {
+          if (tab.getAttribute("onclick").includes(`'${tabId}'`)) {
+            tab.classList.add("tab-active");
+          } else {
+            tab.classList.remove("tab-active");
+          }
+        });
+        mainContentSections.forEach((section) => {
+          if (section.id === tabId) {
+            section.classList.add("active");
+          } else {
+            section.classList.remove("active");
+          }
+        });
+      }
+      function showDayTab(dayNum, isInitialLoad = false) {
+        document.querySelectorAll(".day-tab").forEach((tab) => {
+          const tabDayMatch = tab
+            .getAttribute("onclick")
+            .match(/showDayTab\((\d+)\)/);
+          if (tabDayMatch && tabDayMatch[1] == dayNum) {
+            tab.classList.add("day-tab-active");
+            tab.classList.remove("bg-green-100", "text-green-800");
+            let scrollAlign = "center";
+            if (isInitialLoad) {
+              scrollAlign = "nearest";
+            }
+            if (dayNum == 1) {
+              scrollAlign = "start";
+            }
+            tab.scrollIntoView({
+              behavior: isInitialLoad ? "auto" : "smooth",
+              block: "nearest",
+              inline: scrollAlign,
+            });
+          } else {
+            tab.classList.remove("day-tab-active");
+            tab.classList.add("bg-green-100", "text-green-800");
+          }
+        });
+        document.querySelectorAll(".day-content").forEach((section) => {
+          if (section.id === `day-${dayNum}`) {
+            section.classList.add("active");
+          } else {
+            section.classList.remove("active");
+          }
+        });
+        setStorage("lastViewedDay", dayNum);
+      }
+      function initSlider(slider) {
+        let isDown = false;
+        let startX;
+        let scrollLeft;
+        slider.addEventListener("mousedown", (e) => {
+          isDown = true;
+          slider.classList.add("grabbing");
+          startX = e.pageX - slider.offsetLeft;
+          scrollLeft = slider.scrollLeft;
+        });
+        slider.addEventListener("mouseleave", () => {
+          isDown = false;
+          slider.classList.remove("grabbing");
+        });
+        slider.addEventListener("mouseup", () => {
+          isDown = false;
+          slider.classList.remove("grabbing");
+        });
+        slider.addEventListener("mousemove", (e) => {
+          if (!isDown) return;
+          e.preventDefault();
+          const x = e.pageX - slider.offsetLeft;
+          const walk = (x - startX) * 2;
+          slider.scrollLeft = scrollLeft - walk;
+        });
+      }
+
+      // --- Initialization ---
+      document.addEventListener("DOMContentLoaded", () => {
+        // Init Modals
+        locationModalClose.onclick = () =>
+          locationModal.classList.remove("show");
+        autoLocationBtn.onclick = getAutoLocation;
+        countrySelect.onchange = handleCountryChange;
+        citySelect.onchange = handleCityChange;
+        locationSaveBtn.onclick = saveManualLocation;
+        settingsBtn.onclick = openSettingsModal;
+        settingsModalClose.onclick = closeSettingsModal;
+        settingsCancelBtn.onclick = closeSettingsModal;
+        settingsSaveBtn.onclick = saveSettings;
+        changeLocationBtn.onclick = () => locationModal.classList.add("show");
+
+        // Disclaimer Modal Listeners
+        disclaimerBtn.onclick = () => disclaimerModal.classList.add("show");
+        disclaimerModalClose.onclick = () =>
+          disclaimerModal.classList.remove("show");
+        disclaimerOkBtn.onclick = () =>
+          disclaimerModal.classList.remove("show");
+
+        // Init Planner Content
+        for (let i = 1; i <= 30; i++) {
+          const dayTab = document.createElement("button");
+          dayTab.className = `day-tab py-2 px-4 rounded-full text-sm font-medium transition-all duration-200 flex-shrink-0 bg-green-100 text-green-800`;
+          dayTab.innerText = `দিন ${i}`;
+          dayTab.setAttribute("onclick", `showDayTab(${i})`);
+          dayNavContainer.appendChild(dayTab);
+        }
+        for (let i = 1; i <= 30; i++) {
+          const dataForDay = plannerData.find((d) => d.day === i);
+          const dayHtml = createDayContent(dataForDay || { day: i });
+          dayContentContainer.insertAdjacentHTML("beforeend", dayHtml);
+        }
+        for (let i = 1; i <= 30; i++) {
+          loadDayData(i);
+        }
+
+        const lastViewedDay = getStorage("lastViewedDay") || 1;
+        showDayTab(lastViewedDay, true);
+        showMainTab("intro");
+
+        // Init Location and Prayer Times
+        initLocationModal();
+        updatePrayerTimes();
+        setInterval(updateNextPrayerCountdown, 60000); // Update countdown every minute
+
+        // Init Day Scroller Drag
+        initSlider(dayNavContainer);
+
+        // Track app opens and decide initial tab
+        let appOpenCount = getStorage("appOpenCount") || 0;
+        appOpenCount++;
+        setStorage("appOpenCount", appOpenCount);
+
+        if (appOpenCount >= 2) {
+          showMainTab("planner");
+        } else {
+          showMainTab("intro");
+        }
+      });
+    </script>
+  </body>
+</html>
